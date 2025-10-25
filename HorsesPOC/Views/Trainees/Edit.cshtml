@@ -1,0 +1,25 @@
+﻿@model HorsesPOC.Models.Domain.Trainee
+
+@{
+    ViewData["Title"] = "Edit Trainee";
+    var stableId = Context.Request.Query["StableID"].ToString();
+}
+
+<h2>Edit Trainee</h2>
+
+<form asp-action="Edit" method="post">
+    <input type="hidden" asp-for="ID" />
+
+    @Html.Partial("_FormFields", Model)
+
+    <button type="submit" class="btn btn-primary mt-2">Update</button>
+    <a asp-action="Index"
+       asp-route-StableID="@stableId"
+       class="btn btn-secondary mt-2">
+        Back
+    </a>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

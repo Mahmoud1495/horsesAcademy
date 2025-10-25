@@ -1,0 +1,13 @@
+﻿@model HorsesPOC.Models.Domain.Stable
+@{
+    ViewData["Title"] = "Edit Stable";
+}
+
+<h2>Edit Stable</h2>
+
+<form asp-action="Edit" method="post">
+    <input type="hidden" asp-for="ID" />
+    <partial name="_FormFields" model="Model" />
+    <button type="submit" class="btn btn-primary">Update</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+</form>

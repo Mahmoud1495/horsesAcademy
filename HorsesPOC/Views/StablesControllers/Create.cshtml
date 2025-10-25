@@ -1,0 +1,12 @@
+﻿@model HorsesPOC.Models.Domain.Stable
+@{
+    ViewData["Title"] = "Create Stable";
+}
+
+<h2>Create Stable</h2>
+
+<form asp-action="Create" method="post">
+    <partial name="_FormFields" model="Model" />
+    <button type="submit" class="btn btn-success">Save</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+</form>

@@ -1,0 +1,48 @@
+﻿@model IEnumerable<HorsesPOC.Models.Domain.Stable>
+@{
+    ViewData["Title"] = "Stables";
+}
+
+<h2>Stables</h2>
+
+<a asp-action="Create" class="btn btn-success mb-3">+ Add New Stable</a>
+
+<div class="row">
+    @foreach (var stable in Model)
+    {
+        <div class="col-md-6 col-lg-4 mb-4">
+            <div class="card shadow">
+                <div class="card-body">
+                    <h5 class="card-title">@stable.Name</h5>
+                    <p class="card-text"><strong>Location:</strong> @stable.Location</p>
+
+                    <p>
+                        <strong>Horses:</strong>
+                        
+                        <a asp-controller="Horses" asp-action="Index" asp-route-StableID="@stable.ID" class="badge bg-primary text-decoration-none">
+                            @stable.Horses?.Count() 
+                        </a>
+                    </p>
+                   
+
+                    <p>
+                        <strong>Trainees:</strong>
+                        <a asp-controller="Trainees" asp-action="Index" asp-route-StableID="@stable.ID" class="badge bg-primary text-decoration-none">
+                            @stable.Trainees?.Count()
+                        </a>
+                    </p>
+
+                    <p>
+                        <strong>Owner:</strong>
+                        <a asp-controller="Users" asp-action="Details" asp-route-id="@stable.Owner?.Id" class="badge bg-primary text-decoration-none">
+                            @stable.Owner?.UserName
+                        </a>
+                    </p>
+                    <a asp-action="Details" asp-route-id="@stable.ID" class="btn btn-sm btn-info">Details</a>
+                    <a asp-action="Edit" asp-route-id="@stable.ID" class="btn btn-sm btn-warning">Edit</a>
+                    <a asp-action="Delete" asp-route-id="@stable.ID" class="btn btn-sm btn-danger">Delete</a>
+                </div>
+            </div>
+        </div>
+    }
+</div>

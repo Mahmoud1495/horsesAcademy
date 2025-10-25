@@ -1,0 +1,47 @@
+﻿@model IEnumerable<HorsesPOC.Models.Domain.Horse>
+
+@{
+    ViewData["Title"] = "Horses List";
+    var stableId = User.FindFirst("StableID")?.Value;
+}
+
+<h2>Horses List</h2>
+<a asp-action="Create" asp-route-StableID="@stableId" class="btn btn-primary">
+    Add New Horse
+</a>
+
+<table class="table table-bordered table-striped">
+    <thead class="thead-dark">
+        <tr>
+            <th>Name</th>
+            <th>Age</th>
+            <th>Weight</th>
+            <th>Height</th>
+            <th>Gender</th>
+            <th>Category</th>
+            <th>Status</th>
+            <th>Stable</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var horse in Model)
+        {
+            <tr>
+                <td>@horse.Name</td>
+                <td>@horse.Age</td>
+                <td>@horse.Weight</td>
+                <td>@horse.Height</td>
+                <td>@horse.Gender</td>
+                <td>@horse.Category</td>
+                <td>@horse.StatusAndCondition</td>
+                <td>@horse.Stable?.Name</td>
+                <td>
+                    <a class="btn btn-sm btn-info" asp-action="Details" asp-route-id="@horse.ID">Details</a>
+                    <a class="btn btn-sm btn-warning" asp-action="Edit" asp-route-id="@horse.ID">Edit</a>
+                    <a class="btn btn-sm btn-danger" asp-action="Delete" asp-route-id="@horse.ID">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

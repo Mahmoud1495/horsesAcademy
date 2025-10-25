@@ -1,0 +1,403 @@
+﻿@{
+    ViewData["Title"] = "Training Dashboard";
+}
+
+<div class="container-fluid py-4">
+    <div class="text-center mb-4"> <h2>Training Dashboard</h2> <p class="text-muted">Manage trainees, control timers, and track prayer times</p> </div>
+    <div class="row g-4">
+        <!-- LEFT SIDE: LIVE DISPLAY -->
+        <div class="col-md-8">
+            <div class="card shadow-lg h-100">
+                <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                    <strong>Live Timer Display</strong>
+                    <div>
+                        <input type="number" id="rotate-seconds" class="form-control form-control-sm d-inline-block w-auto" value="5" min="1" />
+                        <label class="text-white ms-1">sec/view</label>
+                    </div>
+                </div>
+                <div class="card-body text-center p-4">
+                    <h3 id="display-name" class="mb-3 text-dark">No Active Timer</h3>
+                    <h1 id="display-countdown" class="fw-bold text-primary" style="font-size:8rem;">--:--</h1>
+
+                    <div class="mt-4">
+                        <button id="pause-all" class="btn btn-warning me-2">Pause All</button>
+                        <button id="clear-all" class="btn btn-danger">Clear All</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- RIGHT SIDE: ADD & CONTROLS -->
+        <div class="col-md-4">
+            <!-- Add Trainee -->
+            <div class="card shadow-sm mb-4">
+                <div class="card-header bg-info text-white">
+                    <strong>Add Horse/Trainee</strong>
+                </div>
+                <div class="card-body">
+                    <form id="trainee-form" class="row g-2">
+                        <div class="col-6">
+                            <select id="trainee-name" class="form-select" required>
+                                <option value="">Select Trainee</option>
+                                @foreach (var t in ViewBag.TraineesList as SelectList)
+                                {
+                                    <option value="@t.Value">@t.Text</option>
+                                }
+                            </select>
+                        </div>
+                        <div class="col-6">
+                            <select id="horse-name" class="form-select" required>
+                                <option value="">Select Horse</option>
+                                @foreach (var h in ViewBag.Horses as SelectList)
+                                {
+                                    <option value="@h.Value">@h.Text</option>
+                                }
+                            </select>
+                        </div>
+                        <div class="col-8">
+                            <input type="number" id="timer-duration" class="form-control" placeholder="Duration (min)" min="1" value="5" />
+                        </div>
+                        <div class="col-4">
+                            <button type="submit" class="btn btn-primary w-100">Add</button>
+                        </div>
+                    </form>
+                    <ul id="trainee-list" class="list-group mt-3" style="max-height:220px; overflow-y:auto;"></ul>
+                </div>
+            </div>
+
+            <!-- Controls -->
+            <div class="card shadow-sm">
+                <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
+                    <strong>Controls</strong>
+                    <button id="start-qr" class="btn btn-success btn-sm">Scan QR</button>
+                </div>
+                <div class="card-body">
+                    <div class="mb-3">
+                        <label class="form-label">QR Code Value</label>
+                        <div class="input-group">
+                            <input id="qr-value" class="form-control" placeholder="Scan or type value..." />
+                            <button id="qr-start-btn" class="btn btn-primary">Start</button>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Voice</label>
+                        <select id="voice-select" class="form-select"></select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Speak Text</label>
+                        <input id="speak-text" class="form-control" value="Starting session for" />
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Alarm Thresholds (min, comma separated)</label>
+                        <input id="alarm-thresholds" class="form-control" value="2,1" />
+                    </div>
+
+                    <button id="speak-btn" class="btn btn-primary w-100 mb-2">Speak Now</button>
+
+                    <div id="qr-reader" style="width:100%; display:none;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PRAYER TIMES -->
+    <div class="card shadow-sm mt-4">
+        <div class="card-header bg-secondary text-white d-flex justify-content-between align-items-center">
+            <strong>Prayer Times</strong>
+            <div>
+                <select id="city-select" class="form-select form-select-sm d-inline-block w-auto">
+                    <option value="Riyadh">Riyadh</option>
+                    <option value="Jeddah">Jeddah</option>
+                    <option value="Makkah">Makkah</option>
+                    <option value="Madinah">Madinah</option>
+                </select>
+                <button id="load-prayers" class="btn btn-light btn-sm ms-2">Reload</button>
+            </div>
+        </div>
+        <div class="card-body">
+            <div id="prayer-times" class="row text-center g-3">
+                @foreach (var prayer in new[] { "Fajr", "Dhuhr", "Asr", "Maghrib", "Isha" })
+                {
+                    <div class="col">
+                        <strong>@prayer</strong>
+                        <input type="time" id="@prayer.ToLower()-time" class="form-control text-center mt-1" />
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+
+            </div>
+@section Scripts {
+    <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
+    <script>
+        // === VOICE SETUP ===
+        let voices = [];
+        const voiceSelect = document.getElementById('voice-select');
+        const speakText = document.getElementById('speak-text');
+        const speakBtn = document.getElementById('speak-btn');
+        const alarmInput = document.getElementById('alarm-thresholds');
+        let currentDisplayId = null;
+
+        function populateVoices() {
+            voices = speechSynthesis.getVoices();
+            voiceSelect.innerHTML = voices.map((v, i) => `<option value="${i}">${v.name} (${v.lang})</option>`).join('');
+        }
+        speechSynthesis.onvoiceschanged = populateVoices;
+
+        function speak(text) {
+            if (!text) return;
+            const msg = new SpeechSynthesisUtterance(text);
+            const v = voices[voiceSelect.value];
+            if (v) msg.voice = v;
+            speechSynthesis.speak(msg);
+        }
+        speakBtn.onclick = () => speak(speakText.value);
+
+        // === BEEP ===
+        function beep() {
+            const ctx = new (window.AudioContext || window.webkitAudioContext)();
+            const osc = ctx.createOscillator();
+            osc.type = 'sine';
+            osc.frequency.setValueAtTime(880, ctx.currentTime);
+            osc.connect(ctx.destination);
+            osc.start();
+            osc.stop(ctx.currentTime + 0.25);
+        }
+
+        // === TIMER LOGIC ===
+        const traineeForm = document.getElementById('trainee-form');
+        const traineeList = document.getElementById('trainee-list');
+        const displayName = document.getElementById('display-name');
+        const displayCountdown = document.getElementById('display-countdown');
+        const pauseAllBtn = document.getElementById('pause-all');
+        const clearAllBtn = document.getElementById('clear-all');
+        
+
+        let timers = JSON.parse(localStorage.getItem('timers') || '{}');
+        let rotationStarted = false;
+
+        function saveTimers() {
+            localStorage.setItem('timers', JSON.stringify(timers));
+        }
+
+        function removeOption(selectId, value) {
+            const opt = document.querySelector(`#${selectId} option[value="${value}"]`);
+            if (opt) opt.remove();
+        }
+
+                function reinsertOption(selectId, text, value) {
+            const select = document.getElementById(selectId);
+            if (!select) return;
+
+            // ✅ Check if option already exists by value
+            const exists = Array.from(select.options).some(opt => opt.value === value);
+            if (!exists) {
+                const option = new Option(text, value);
+                select.add(option);
+            }
+            else{
+                const opt = document.querySelector(`#${selectId} option[value="${value}"]`);
+            if (opt) opt.remove();
+            }
+        }
+
+        traineeForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const traineeSelect = document.getElementById('trainee-name');
+            const horseSelect = document.getElementById('horse-name');
+            const trainee = traineeSelect.options[traineeSelect.selectedIndex]?.text.trim();
+            const horse = horseSelect.options[horseSelect.selectedIndex]?.text.trim();
+            const traineeValue = traineeSelect.value;
+            const horseValue = horseSelect.value;
+            const traineeId = traineeSelect.value;
+            const horseId = horseSelect.value;
+            const duration = parseInt(document.getElementById('timer-duration').value) * 60;
+            if (!trainee || !horse) return;
+
+            removeOption('trainee-name', traineeValue);
+            removeOption('horse-name', horseValue);
+
+            const id = `${trainee}-${Date.now()}`;
+            addTimerItem(id, trainee, horse, duration);
+                timers[id] = {
+            trainee,
+            horse,
+            traineeId,
+            horseId,
+            remaining: duration,
+            active: false,
+            done: false
+        };
+            // timers[id] = { trainee, horse, remaining: duration, active: false };
+            saveTimers();
+        });
+
+                function addTimerItem(id, trainee, horse, duration, traineeId, horseId) {
+            const li = document.createElement('li');
+            li.classList.add('list-group-item', 'd-flex', 'justify-content-between', 'align-items-center');
+            li.setAttribute('data-trainee-id', traineeId);
+            li.setAttribute('data-horse-id', horseId);
+
+            li.innerHTML = `
+                <div>
+                    <strong>${trainee}</strong> - ${horse}
+                    <span class="badge bg-primary ms-2" id="timer-${id}">${Math.floor(duration / 60)}:00</span>
+                </div>
+                <div>
+                    <button class="btn btn-success btn-sm me-1" onclick="startTimer('${id}')">Start</button>
+                    <button class="btn btn-warning btn-sm me-1" onclick="pauseTimer('${id}')">Pause</button>
+                    <button class="btn btn-danger btn-sm" onclick="clearTimer('${id}')">Clear</button>
+                </div>
+            `;
+            traineeList.appendChild(li);
+        }
+
+
+        function startTimer(id) {
+            const t = timers[id];
+            if (!t) return;
+
+            if (t.interval) clearInterval(t.interval);
+            t.active = true;
+            speak(`${speakText.value} ${t.trainee}`);
+            const badge = document.getElementById(`timer-${id}`);
+
+            t.interval = setInterval(() => {
+                if (!t.active) return;
+
+                t.remaining--;
+                const mins = Math.floor(t.remaining / 60);
+                const secs = String(t.remaining % 60).padStart(2, '0');
+                badge.textContent = `${mins}:${secs}`;
+                saveTimers();
+
+                // alarms
+                const thresholds = alarmInput.value.split(',').map(x => parseInt(x.trim()) * 60);
+                thresholds.forEach(th => {
+                    if (t.remaining === th) {
+                        beep();
+                        speak(`Attention: ${Math.floor(th / 60)} minute left for ${t.trainee}`);
+                    }
+                });
+
+                if (t.remaining <= 0) {
+                    clearInterval(t.interval);
+                    badge.classList.replace('bg-primary', 'bg-success');
+                    badge.textContent = 'Done';
+                    t.done = true;
+                    speak(`${t.trainee}'s timer finished`);
+                        // ✅ Reinsert using traineeId & horseId
+                    reinsertOption('trainee-name', t.trainee, t.traineeId);
+                    reinsertOption('horse-name', t.horse, t.horseId);
+                    saveTimers();
+                }
+            }, 1000);
+
+            if (!rotationStarted) startRotation();
+        }
+
+        function pauseTimer(id) {
+            const t = timers[id];
+            if (!t) return;
+            t.active = !t.active;
+
+            const btn = document.querySelector(`#timer-${id}`).closest('li').querySelector('.btn-warning');
+            btn.textContent = t.active ? 'Pause' : 'Resume';
+            saveTimers();
+        }
+
+        function clearTimer(id) {
+            const t = timers[id];
+            if (t?.interval) clearInterval(t.interval);
+            delete timers[id];
+            const li = document.querySelector(`#timer-${id}`)?.closest('li');
+            if (li) li.remove();
+            saveTimers();
+        }
+
+        pauseAllBtn.addEventListener('click', () => {
+            Object.values(timers).forEach(t => t.active = false);
+        });
+
+        clearAllBtn.addEventListener('click', () => {
+            Object.keys(timers).forEach(clearTimer);
+            saveTimers();
+        });
+
+        function startRotation() {
+            rotationStarted = true;
+            let index = 0;
+
+            const rotateInterval = () => parseInt(document.getElementById('rotate-seconds').value) * 1000;
+
+            // rotation logic
+            setInterval(() => {
+                const list = Object.entries(timers).filter(([_, t]) => !t.done);
+                if (!list.length) {
+                    displayName.textContent = 'No Active Timer';
+                    displayCountdown.textContent = '--:--';
+                    rotationStarted = false;
+                    currentDisplayId = null;
+                    return;
+                }
+                const [id, t] = list[index % list.length];
+                displayName.textContent = t.trainee;
+                currentDisplayId = id;
+                index++;
+            }, rotateInterval());
+
+            // live display refresh every second
+            setInterval(() => {
+                if (!currentDisplayId) return;
+                const t = timers[currentDisplayId];
+                if (!t || t.done) return;
+                const mins = Math.floor(t.remaining / 60);
+                const secs = String(t.remaining % 60).padStart(2, '0');
+                displayCountdown.textContent = `${mins}:${secs}`;
+            }, 1000);
+        }
+
+                // === RESTORE TIMERS ON PAGE LOAD ===
+        window.onload = () => {
+            Object.entries(timers).forEach(([id, t]) => {
+                debugger;
+                if (!document.getElementById(`timer-${id}`)) {
+                    addTimerItem(id, t.trainee, t.horse, t.remaining, t.traineeId, t.horseId);
+                }
+
+                if (t.active && !t.done) {
+                    startTimer(id);
+                }
+
+                if (t.done) {
+                    // reinsertOption('trainee-name', t.trainee, t.traineeId);
+                    // reinsertOption('horse-name', t.horse, t.horseId);
+                }
+                else{
+                    removeOption('trainee-name',  t.traineeId);
+                    removeOption('horse-name', t.horseId);
+                }
+            });
+        };
+
+        // === PRAYER TIMES ===
+        async function loadPrayerTimes() {
+            const city = document.getElementById('city-select').value;
+            const res = await fetch(`https://api.aladhan.com/v1/timingsByCity?city=${city}&country=Saudi%20Arabia&method=2`);
+            const data = await res.json();
+            const t = data.data.timings;
+            const map = { fajr: "Fajr", dhuhr: "Dhuhr", asr: "Asr", maghrib: "Maghrib", isha: "Isha" };
+            for (const key in map) {
+                const el = document.getElementById(`${key}-time`);
+                if (el) el.value = t[map[key]];
+            }
+        }
+
+        document.getElementById('load-prayers').addEventListener('click', loadPrayerTimes);
+        loadPrayerTimes();
+    </script>
+}

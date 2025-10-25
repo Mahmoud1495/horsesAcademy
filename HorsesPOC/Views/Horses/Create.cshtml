@@ -1,0 +1,13 @@
+﻿@model HorsesPOC.Models.Domain.Horse
+
+@{
+    ViewData["Title"] = "Create Horse";
+}
+
+<h2>Create Horse</h2>
+
+<form asp-action="Create" method="post" class="mt-3">
+    @Html.Partial("_FormFields", Model)
+    <button type="submit" class="btn btn-success">Save</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+</form>

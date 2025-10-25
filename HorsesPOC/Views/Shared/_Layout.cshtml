@@ -1,0 +1,155 @@
+﻿@using System.Security.Claims
+@{
+    var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+    var userType = User.FindFirst("UserType")?.Value;
+    var stableId = User.FindFirst("StableID")?.Value;
+}
+
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="light">
+ <!-- Default to light mode -->
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Aladham Horse Riding Training Management</title>
+
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/HorsesPOC.styles.css" asp-append-version="true" />
+
+    <style>
+        /* Optional: transition effect when theme changes */
+        html {
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        /* Optional: custom navbar light/dark fix */
+        .navbar[data-bs-theme="dark"] {
+            background-color: #1e1e1e;
+        }
+
+        .theme-toggle {
+            position: absolute;
+            top: 10px;
+            right: 100px;
+        }
+    </style>
+</head>
+<body>
+   
+
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3" id="mainNavbar">
+            <div class="container-fluid">
+                @if (userType == "Admin")
+                {
+                    <a class="navbar-brand" asp-area="" asp-controller="StablesControllers" asp-action="Index">Aladham Horse Academy</a>
+                }
+                else
+                {
+                    <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Aladham Horse Academy</a>
+                }
+                
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                
+                <!-- Dark/Light Theme Toggle -->
+                <div class="theme-toggle">
+                    <div class="form-check form-switch text-end">
+                        <input class="form-check-input" type="checkbox" id="themeToggle">
+                        <label class="form-check-label" for="themeToggle">Dark Mode</label>
+                    </div>
+                </div>
+                
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    <ul class="navbar-nav flex-grow-1">
+                        @if (userType == "Admin")
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="StablesControllers" asp-action="Index">Stables</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Users" asp-action="Index">Owners</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Horses" asp-action="Index">Horses</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Trainees" asp-action="Index">Trainees</a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-controller="Horses" asp-action="Index"
+                                   asp-route-StableID="@stableId">Horses</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-controller="Trainees" asp-action="Index"
+                                   asp-route-StableID="@stableId">Trainees</a>
+                            </li>
+                        }
+
+
+                    </ul>
+                    <form asp-controller="Account" asp-action="Logout" method="post" class="d-inline">
+                        <button type="submit" class="btn btn-outline-danger btn-sm ms-2">Logout</button>
+                    </form>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2025 - HorsesPOC - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        </div>
+    </footer>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+
+    <script>
+        // Theme toggle logic with localStorage
+        const toggle = document.getElementById('themeToggle');
+        const html = document.documentElement;
+        const navbar = document.getElementById('mainNavbar');
+
+        // Get saved theme or default to light
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        html.setAttribute('data-bs-theme', savedTheme);
+        toggle.checked = savedTheme === 'dark';
+
+        if (savedTheme === 'dark') {
+            navbar.classList.remove('navbar-light', 'bg-white');
+            navbar.classList.add('navbar-dark', 'bg-dark');
+        }
+
+        toggle.addEventListener('change', () => {
+            const newTheme = toggle.checked ? 'dark' : 'light';
+            html.setAttribute('data-bs-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+
+            // Adjust navbar appearance
+            if (newTheme === 'dark') {
+                navbar.classList.remove('navbar-light', 'bg-white');
+                navbar.classList.add('navbar-dark', 'bg-dark');
+            } else {
+                navbar.classList.remove('navbar-dark', 'bg-dark');
+                navbar.classList.add('navbar-light', 'bg-white');
+            }
+        });
+    </script>
+</body>
+</html>

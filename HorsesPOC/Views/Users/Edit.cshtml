@@ -1,0 +1,15 @@
+﻿@model HorsesPOC.Models.Domain.user
+
+@{
+    ViewData["Title"] = "Edit User";
+}
+
+<h2>Edit Horse</h2>
+
+<form asp-action="Edit" method="post" class="mt-3">
+    <input type="hidden" asp-for="Id" />
+    @Html.Partial("_FormFields", Model)
+    @* <button type="submit" class="btn btn-primary">Update</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancel</a> *@
+</form>
+

@@ -1,0 +1,42 @@
+﻿@model HorsesPOC.Models.Domain.Stable
+@{
+    ViewData["Title"] = "Stable Details";
+}
+
+<h2>Stable Details</h2>
+
+<div class="card mb-4">
+    <div class="card-body">
+        <h5 class="card-title">@Model.Name</h5>
+        <p class="card-text"><strong>Location:</strong> @Model.Location</p>
+        <p><strong>Owner:</strong> @Model.Owner?.UserName</p>
+    </div>
+</div>
+
+@if (Model.Horses?.Any() == true)
+{
+    <h4>Horses</h4>
+    <ul class="list-group mb-4">
+        @foreach (var horse in Model.Horses)
+        {
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                @horse.Name
+                <span class="text-muted">Age: @horse.Age</span>
+            </li>
+        }
+    </ul>
+}
+
+@if (Model.Trainees?.Any() == true)
+{
+    <h4>Trainees</h4>
+    <ul class="list-group mb-4">
+        @foreach (var trainee in Model.Trainees)
+        {
+            <li class="list-group-item">@trainee.Name</li>
+        }
+    </ul>
+}
+
+<a asp-action="Edit" asp-route-id="@Model.ID" class="btn btn-warning">Edit</a>
+<a asp-action="Index" class="btn btn-secondary">Back to List</a>

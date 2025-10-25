@@ -1,0 +1,51 @@
+﻿@model IEnumerable<HorsesPOC.Models.Domain.Trainee>
+
+@{
+    ViewData["Title"] = "Trainees List";
+    var stableId = User.FindFirst("StableID")?.Value;
+}
+
+<h2>Trainees</h2>
+
+<p>
+    <a asp-action="Create" asp-route-StableID="@stableId" class="btn btn-primary">
+        Add New Trainee
+    </a>
+</p>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Age</th>
+            <th>Phone Number</th>
+            <th>Stable</th>
+            <th>QR code</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Name</td>
+                <td>@item.Age</td>
+                <td>@item.PhoneNumber</td>
+                <td>@item.Stable?.Name</td>
+                <td>
+                    @if (!string.IsNullOrEmpty(item.QRCode))
+                    {
+                        <a href="@item.QRCode" download="@($"TraineeQR-{item.Name.Replace(" ", "_")}.png")">
+                            <img src="@item.QRCode" width="60" height="60" style="cursor: pointer;" alt="QR Code" />
+                        </a>
+                    }
+                </td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@item.ID" class="btn btn-info btn-sm">Details</a>
+                    <a asp-action="Edit" asp-route-id="@item.ID" class="btn btn-warning btn-sm">Edit</a>
+                    <a asp-action="Delete" asp-route-id="@item.ID" class="btn btn-danger btn-sm">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

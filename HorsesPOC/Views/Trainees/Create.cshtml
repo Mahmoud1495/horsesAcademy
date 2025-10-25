@@ -1,0 +1,18 @@
+﻿@model HorsesPOC.Models.Domain.Trainee
+
+@{
+    ViewData["Title"] = "Create Trainee";
+}
+
+<h2>Add New Trainee</h2>
+
+<form asp-action="Create" method="post">
+    @Html.Partial("_FormFields", Model)
+
+    <button type="submit" class="btn btn-success mt-2">Save</button>
+    <a asp-action="Index" class="btn btn-secondary mt-2">Back</a>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

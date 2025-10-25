@@ -1,0 +1,28 @@
+﻿@model HorsesPOC.Models.Domain.Horse
+
+@{
+    ViewData["Title"] = "Delete Horse";
+}
+
+<h2>Delete Horse</h2>
+
+<h4>Are you sure you want to delete <strong>@Model.Name</strong>?</h4>
+
+<div>
+    <dl class="row">
+        <dt class="col-sm-2">Age</dt>
+        <dd class="col-sm-10">@Model.Age</dd>
+
+        <dt class="col-sm-2">Weight</dt>
+        <dd class="col-sm-10">@Model.Weight</dd>
+
+        <dt class="col-sm-2">Gender</dt>
+        <dd class="col-sm-10">@Model.Gender</dd>
+    </dl>
+</div>
+
+<form asp-action="DeleteConfirmed" method="post">
+    <input type="hidden" asp-for="ID" />
+    <button type="submit" class="btn btn-danger">Delete</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+</form>

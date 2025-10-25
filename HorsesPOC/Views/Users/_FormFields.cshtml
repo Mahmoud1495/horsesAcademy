@@ -1,0 +1,81 @@
+﻿@model HorsesPOC.Models.Domain.user
+
+@{
+    var isEdit = Model.Id != Guid.Empty;
+    ViewData["Title"] = isEdit ? "Edit User" : "Create User";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<form asp-action="@(isEdit ? "Edit" : "Create")" method="post" novalidate>
+    @if (isEdit)
+    {
+        <input type="hidden" asp-for="Id" />
+    }
+
+    <div class="form-group mb-3">
+        <label asp-for="Name" class="form-label"></label>
+        <input asp-for="Name" class="form-control" />
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+
+    <div class="form-group mb-3">
+        <label asp-for="UserName" class="form-label"></label>
+        <input asp-for="UserName" class="form-control" />
+        <span asp-validation-for="UserName" class="text-danger"></span>
+    </div>
+
+    <div class="form-group mb-3">
+        <label asp-for="PhoneNumber" class="form-label"></label>
+        <input asp-for="PhoneNumber" class="form-control" />
+        <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+    </div>
+
+    <div class="form-group mb-3">
+        <label asp-for="NID" class="form-label"></label>
+        <input asp-for="NID" class="form-control" />
+        <span asp-validation-for="NID" class="text-danger"></span>
+    </div>
+
+    <div class="form-group mb-3 position-relative">
+        <label asp-for="Password" class="form-label">@(isEdit ? "New Password" : "Password")</label>
+        <input asp-for="Password" type="password" class="form-control" id="PasswordField" autocomplete="new-password" />
+        <span asp-validation-for="Password" class="text-danger"></span>
+        <button type="button" class="btn btn-sm btn-outline-secondary position-absolute top-50 end-0 translate-middle-y me-2" onclick="togglePassword('PasswordField', this)">
+            Show
+        </button>
+    </div>
+
+    @if (!isEdit)
+    {
+        <div class="form-group mb-3 position-relative">
+            <label for="confirmPassword" class="form-label">Confirm Password</label>
+            <input name="confirmPassword" type="password" class="form-control" id="ConfirmPasswordField" autocomplete="new-password" />
+            <button type="button" class="btn btn-sm btn-outline-secondary position-absolute top-50 end-0 translate-middle-y me-2" onclick="togglePassword('ConfirmPasswordField', this)">
+                Show
+            </button>
+        </div>
+    }
+
+    <div class="form-group mb-3">
+        <label asp-for="UserType" class="form-label"></label>
+        <select asp-for="UserType" class="form-select" asp-items="ViewBag.UserTypes"></select>
+        <span asp-validation-for="UserType" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">@((isEdit) ? "Save" : "Create")</button>
+    <a asp-action="Index" class="btn btn-secondary ms-2">Cancel</a>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        function togglePassword(fieldId, button) {
+            const input = document.getElementById(fieldId);
+            if (!input) return;
+            const isPassword = input.type === "password";
+            input.type = isPassword ? "text" : "password";
+            button.innerText = isPassword ? "Hide" : "Show";
+        }
+    </script>
+}
