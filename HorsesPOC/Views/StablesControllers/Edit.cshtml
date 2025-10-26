@@ -1,13 +1,29 @@
 ﻿@model HorsesPOC.Models.Domain.Stable
+
 @{
     ViewData["Title"] = "Edit Stable";
 }
 
-<h2>Edit Stable</h2>
+<h2 class="mb-3">Edit Stable</h2>
 
-<form asp-action="Edit" method="post">
+<form asp-action="Edit" method="post" class="mt-3">
+    @Html.AntiForgeryToken()
     <input type="hidden" asp-for="ID" />
-    <partial name="_FormFields" model="Model" />
-    <button type="submit" class="btn btn-primary">Update</button>
-    <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+
+    <!-- Show model-level validation errors -->
+    <div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert"></div>
+
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <partial name="_FormFields" model="Model" />
+        </div>
+        <div class="card-footer d-flex justify-content-end gap-2">
+            <button type="submit" class="btn btn-primary">
+                <i class="bi bi-pencil-square me-1"></i> Update
+            </button>
+            <a asp-action="Index" class="btn btn-secondary">
+                <i class="bi bi-x-circle me-1"></i> Cancel
+            </a>
+        </div>
+    </div>
 </form>

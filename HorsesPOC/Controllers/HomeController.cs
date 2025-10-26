@@ -7,7 +7,10 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Hosting;
 using System.Diagnostics;
+using System.Threading.Tasks;
 
 namespace HorsesPOC.Controllers
 {
@@ -47,7 +50,32 @@ namespace HorsesPOC.Controllers
 			return View();
         }
 
-        public IActionResult Privacy()
+		public async Task<Guid> CreateTrainingRecord(Guid traineeId)
+		{
+			var tracker = new TrainingTracker()
+			{
+				Id = Guid.NewGuid(),
+				StartTime = DateTime.Now,
+				TraineeId = traineeId,
+				Stage = Enums.SessionStage.One
+			};
+			await _context.TrainingTracker.AddAsync(tracker);
+
+			await _context.SaveChangesAsync();
+			return tracker.Id;
+		}
+
+		public async Task<bool> UpdateTrainingRecord(Guid sessionID,int actualMin)
+		{
+			var tracker = await _context.TrainingTracker.FirstOrDefaultAsync(t => t.Id == sessionID);
+			tracker.EndTime = DateTime.Now;
+			tracker.ActualTrainingInMin = actualMin;
+			_context.Update(tracker);
+			await _context.SaveChangesAsync();
+			return true;
+		}
+
+		public IActionResult Privacy()
         {
             return View();
         }

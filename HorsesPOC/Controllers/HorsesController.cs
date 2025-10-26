@@ -136,7 +136,7 @@ namespace HorsesPOC.Controllers
 			return View(horse);
 		}
 
-		[HttpPost, ActionName("Delete")]
+		[HttpPost, ActionName("DeleteConfirmed")]
 		public async Task<IActionResult> DeleteConfirmed(Guid id)
 		{
 			var horse = await _context.Horses.FindAsync(id);

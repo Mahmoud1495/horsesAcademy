@@ -4,18 +4,45 @@
     ViewData["Title"] = "Delete Trainee";
 }
 
-<h2>Delete Trainee</h2>
+<h2 class="mb-3 text-danger">Delete Trainee</h2>
 
-<h4>Are you sure you want to delete this trainee?</h4>
-
-<div>
-    <h5>@Model.Name</h5>
-    <p>Age: @Model.Age</p>
-    <p>Phone: @Model.PhoneNumber</p>
+<div class="alert alert-warning d-flex align-items-start" role="alert">
+    <i class="bi bi-exclamation-triangle-fill me-2"></i>
+    <div>
+        <strong>Heads up:</strong> This action cannot be undone. Deleting <strong>@Model?.Name</strong> will permanently remove the trainee record.
+    </div>
 </div>
 
-<form asp-action="DeleteConfirmed" method="post">
+<div class="card shadow-sm mb-3">
+    <div class="card-header bg-light"><strong>Trainee details</strong></div>
+    <div class="card-body">
+        <dl class="row mb-0">
+            <dt class="col-sm-3">Name</dt>
+            <dd class="col-sm-9">@Model?.Name</dd>
+
+            <dt class="col-sm-3">Age</dt>
+            <dd class="col-sm-9">@Model?.Age</dd>
+
+            <dt class="col-sm-3">Phone</dt>
+            <dd class="col-sm-9">@Model?.PhoneNumber</dd>
+
+            @if (Model?.Stable != null)
+            {
+                <dt class="col-sm-3">Stable</dt>
+                <dd class="col-sm-9">@Model.Stable.Name</dd>
+            }
+        </dl>
+    </div>
+</div>
+
+<form asp-action="DeleteConfirmed" method="post" class="d-flex gap-2" onsubmit="return confirm('Are you sure you want to permanently delete this trainee?');">
+    @Html.AntiForgeryToken()
     <input type="hidden" asp-for="ID" />
-    <button type="submit" class="btn btn-danger">Delete</button>
-    <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+
+    <button type="submit" class="btn btn-danger">
+        <i class="bi bi-trash-fill me-1"></i> Delete
+    </button>
+    <a asp-action="Index" class="btn btn-secondary">
+        <i class="bi bi-x-circle me-1"></i> Cancel
+    </a>
 </form>

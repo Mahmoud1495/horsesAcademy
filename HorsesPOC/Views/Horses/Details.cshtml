@@ -4,42 +4,61 @@
     ViewData["Title"] = "Horse Details";
 }
 
-<h2>Horse Details</h2>
+<h2 class="mb-3">Horse Details</h2>
 
-<dl class="row">
-    <dt class="col-sm-3">Name</dt>
-    <dd class="col-sm-9">@Model.Name</dd>
+<div class="card shadow-sm mb-4">
+    <div class="card-body">
+        <dl class="row mb-0">
+            <dt class="col-sm-3">Name</dt>
+            <dd class="col-sm-9">@Model.Name</dd>
 
-    <dt class="col-sm-3">Age</dt>
-    <dd class="col-sm-9">@Model.Age</dd>
+            <dt class="col-sm-3">Age</dt>
+            <dd class="col-sm-9">@Model.Age</dd>
 
-    <dt class="col-sm-3">Weight</dt>
-    <dd class="col-sm-9">@Model.Weight</dd>
+            <dt class="col-sm-3">Weight</dt>
+            <dd class="col-sm-9">@Model.Weight</dd>
 
-    <dt class="col-sm-3">Height</dt>
-    <dd class="col-sm-9">@Model.Height</dd>
+            <dt class="col-sm-3">Height</dt>
+            <dd class="col-sm-9">@Model.Height</dd>
 
-    <dt class="col-sm-3">Birth Date</dt>
-    <dd class="col-sm-9">@Model.BirthDate.ToShortDateString()</dd>
+            <dt class="col-sm-3">Birth Date</dt>
+            <dd class="col-sm-9">@Model.BirthDate.ToShortDateString()</dd>
 
-    <dt class="col-sm-3">Gender</dt>
-    <dd class="col-sm-9">@Model.Gender</dd>
+            <dt class="col-sm-3">Gender</dt>
+            <dd class="col-sm-9">@Model.Gender</dd>
 
-    <dt class="col-sm-3">Vaccine</dt>
-    <dd class="col-sm-9">@Model.Vaccine</dd>
+            <dt class="col-sm-3">Vaccine</dt>
+            <dd class="col-sm-9">@Model.Vaccine</dd>
 
-    <dt class="col-sm-3">Category</dt>
-    <dd class="col-sm-9">@Model.Category</dd>
+            <dt class="col-sm-3">Category</dt>
+            <dd class="col-sm-9">@Model.Category</dd>
 
-    <dt class="col-sm-3">Status</dt>
-    <dd class="col-sm-9">@Model.StatusAndCondition</dd>
+            <dt class="col-sm-3">Status</dt>
+            <dd class="col-sm-9">@Model.StatusAndCondition</dd>
 
-    <dt class="col-sm-3">Ride Time</dt>
-    <dd class="col-sm-9">@Model.RideTimeStart?.ToString("hh\\:mm") - @Model.RideTimeEnd?.ToString("hh\\:mm")</dd>
+            <dt class="col-sm-3">Ride Time</dt>
+            <dd class="col-sm-9">
+                @if (Model.RideTimeStart.HasValue && Model.RideTimeEnd.HasValue)
+                {
+                    @($"{Model.RideTimeStart:hh\\:mm} - {Model.RideTimeEnd:hh\\:mm}")
+                }
+                else
+                {
+                    <span class="text-muted">Not set</span>
+                }
+            </dd>
 
-    <dt class="col-sm-3">Stable</dt>
-    <dd class="col-sm-9">@Model.Stable?.Name</dd>
-</dl>
+            <dt class="col-sm-3">Stable</dt>
+            <dd class="col-sm-9">@Model.Stable?.Name ?? <span class="text-muted">Unassigned</span></dd>
+        </dl>
+    </div>
+</div>
 
-<a asp-action="Edit" asp-route-id="@Model.ID" class="btn btn-warning">Edit</a>
-<a asp-action="Index" class="btn btn-secondary">Back to List</a>
+<div class="d-flex gap-2">
+    <a asp-action="Edit" asp-route-id="@Model.ID" class="btn btn-warning">
+        <i class="bi bi-pencil-square me-1"></i> Edit
+    </a>
+    <a asp-action="Index" class="btn btn-secondary">
+        <i class="bi bi-arrow-left me-1"></i> Back to List
+    </a>
+</div>

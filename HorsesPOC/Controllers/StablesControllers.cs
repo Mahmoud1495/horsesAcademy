@@ -44,7 +44,7 @@ namespace HorsesPOC.Controllers
 
 		public async Task<IActionResult> Create()
 		{
-			await PopulateOwnersDropdown();
+			await PopulateOwnersDropdown(false,null);
 			return View();
 		}
 
@@ -58,7 +58,7 @@ namespace HorsesPOC.Controllers
 				return RedirectToAction(nameof(Index));
 			}
 
-			await PopulateOwnersDropdown();
+			await PopulateOwnersDropdown(false, null);
 			return View(stable);
 		}
 
@@ -68,7 +68,7 @@ namespace HorsesPOC.Controllers
 			if (stable == null)
 				return NotFound();
 
-			await PopulateOwnersDropdown();
+			await PopulateOwnersDropdown(true, id);
 
 			return View(stable);
 		}
@@ -83,7 +83,7 @@ namespace HorsesPOC.Controllers
 				return RedirectToAction(nameof(Index));
 			}
 
-			await PopulateOwnersDropdown();
+			await PopulateOwnersDropdown(true, stable.ID);
 			return View(stable);
 		}
 
@@ -118,12 +118,21 @@ namespace HorsesPOC.Controllers
 			return View(stable);
 		}
 
-		private async Task PopulateOwnersDropdown()
+		private async Task PopulateOwnersDropdown(bool isEdit,Guid? StableID)
 		{
+			if(!isEdit)
+			{
+				var users = await _context.users.Where(u => u.UserType == Enums.UserEnum.StableAdmin && !_context.Stables.Any(s => s.OwnerId == u.Id)).ToListAsync();
 
-			var users = await _context.users.Where(u => u.UserType == Enums.UserEnum.StableAdmin &&!_context.Stables.Any(s => s.OwnerId == u.Id)).ToListAsync();
+				ViewBag.Owners = new SelectList(users, "Id", "Name");
+			}
+			else
+			{
+				var users = await _context.users.Where(u => u.UserType == Enums.UserEnum.StableAdmin && !_context.Stables.Any(s => s.OwnerId == u.Id && s.ID != StableID.Value)).ToListAsync();
 
-			ViewBag.Owners = new SelectList(users, "Id", "Name"); 
+				ViewBag.Owners = new SelectList(users, "Id", "Name");
+			}
+			
 		}
 	}
 }

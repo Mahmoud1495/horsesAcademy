@@ -14,5 +14,6 @@ namespace HorsesPOC.Data
 		public DbSet<Stable> Stables { get; set; }
 		public DbSet<Trainee> Trainees { get; set; }
 		public DbSet<Horse> Horses { get; set; }
+		public DbSet<TrainingTracker> TrainingTracker { get; set; }
 	}
 }

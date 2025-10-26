@@ -1,97 +1,166 @@
 ﻿@model HorsesPOC.Models.Domain.Horse
 
 @{
-    var hasStableId = Model.StableID != Guid.Empty && Model.StableID != null;
+    var hasStableId = Model?.StableID != Guid.Empty && Model?.StableID != null;
 }
 
 <div class="container">
-    <div class="row">
-        <div class="col-md-3 mb-3">
-            <label asp-for="Name"></label>
-            <input asp-for="Name" class="form-control" />
-            <span asp-validation-for="Name" class="text-danger"></span>
+    <!-- Validation summary -->
+    <div asp-validation-summary="ModelOnly" class="alert alert-danger d-none" role="alert"></div>
+
+    <div class="row g-3">
+        <!-- Name -->
+        <div class="col-md-3">
+            <label asp-for="Name" class="form-label">Name</label>
+            <input asp-for="Name" class="form-control" placeholder="e.g., Thunderbolt" />
+            <span asp-validation-for="Name" class="text-danger small"></span>
         </div>
 
-        <div class="col-md-3 mb-3">
-            <label asp-for="Age"></label>
-            <input asp-for="Age" class="form-control" />
-            <span asp-validation-for="Age" class="text-danger"></span>
+        <!-- Age (years) -->
+        <div class="col-md-3">
+            <label asp-for="Age" class="form-label">Age</label>
+            <div class="input-group">
+                <input asp-for="Age" class="form-control" inputmode="numeric" min="0" step="1" />
+                <span class="input-group-text">yrs</span>
+            </div>
+            <span asp-validation-for="Age" class="text-danger small"></span>
         </div>
 
-        <div class="col-md-3 mb-3">
-            <label asp-for="Gender"></label>
-            <select asp-for="Gender" class="form-control" asp-items="ViewBag.GenderList">
+        <!-- Gender -->
+        <div class="col-md-3">
+            <label asp-for="Gender" class="form-label">Gender</label>
+            <select asp-for="Gender" class="form-select" asp-items="ViewBag.GenderList">
                 <option value="">-- Select Gender --</option>
             </select>
-            <span asp-validation-for="Gender" class="text-danger"></span>
+            <span asp-validation-for="Gender" class="text-danger small"></span>
         </div>
-        <div class="col-md-3 mb-3">
-            <label asp-for="Vaccine"></label>
-            <input asp-for="Vaccine" class="form-control" />
-            <span asp-validation-for="Vaccine" class="text-danger"></span>
+
+        <!-- Vaccine -->
+        <div class="col-md-3">
+            <label asp-for="Vaccine" class="form-label">Vaccine</label>
+            <input asp-for="Vaccine" class="form-control" placeholder="e.g., Tetanus (2025-03)" />
+            <span asp-validation-for="Vaccine" class="text-danger small"></span>
         </div>
     </div>
 
-    <div class="row">
-        <div class="col-md-3 mb-3">
-            <label asp-for="Weight"></label>
-            <input asp-for="Weight" class="form-control" />
-            <span asp-validation-for="Weight" class="text-danger"></span>
+    <div class="row g-3 mt-1">
+        <!-- Weight (kg) -->
+        <div class="col-md-3">
+            <label asp-for="Weight" class="form-label">Weight</label>
+            <div class="input-group">
+                <input asp-for="Weight" class="form-control" inputmode="decimal" step="0.1" min="0" />
+                <span class="input-group-text">kg</span>
+            </div>
+            <span asp-validation-for="Weight" class="text-danger small"></span>
         </div>
 
-        <div class="col-md-3 mb-3">
-            <label asp-for="Height"></label>
-            <input asp-for="Height" class="form-control" />
-            <span asp-validation-for="Height" class="text-danger"></span>
+        <!-- Height (cm) -->
+        <div class="col-md-3">
+            <label asp-for="Height" class="form-label">Height</label>
+            <div class="input-group">
+                <input asp-for="Height" class="form-control" inputmode="decimal" step="0.1" min="0" />
+                <span class="input-group-text">cm</span>
+            </div>
+            <span asp-validation-for="Height" class="text-danger small"></span>
         </div>
-        <div class="col-md-3 mb-3">
-            <label asp-for="BirthDate"></label>
-            <input asp-for="BirthDate" type="date" class="form-control" />
-            <span asp-validation-for="BirthDate" class="text-danger"></span>
+
+        <!-- BirthDate -->
+        <div class="col-md-3">
+            <label asp-for="BirthDate" class="form-label">Birth date</label>
+            <input asp-for="BirthDate" type="date" class="form-control" max="@DateTime.UtcNow.Date.ToString("yyyy-MM-dd")" />
+            <span asp-validation-for="BirthDate" class="text-danger small"></span>
+            <div class="form-text" id="derived-age" aria-live="polite"></div>
         </div>
-        <div class="col-md-3 mb-3">
-            <label asp-for="Category"></label>
-            <select asp-for="Category" class="form-control" asp-items="Html.GetEnumSelectList<HorsesPOC.Enums.HorseCategory>()"></select>
-            <span asp-validation-for="Category" class="text-danger"></span>
+
+        <!-- Category (enum) -->
+        <div class="col-md-3">
+            <label asp-for="Category" class="form-label">Category</label>
+            <select asp-for="Category" class="form-select" asp-items="Html.GetEnumSelectList<HorsesPOC.Enums.HorseCategory>()"></select>
+            <span asp-validation-for="Category" class="text-danger small"></span>
         </div>
-        
     </div>
-    =
-    <div class="row">
-        <div class="col-md-3 mb-3">
-            <label asp-for="RideTimeStart"></label>
+
+    <div class="row g-3 mt-1">
+        <!-- RideTimeStart -->
+        <div class="col-md-3">
+            <label asp-for="RideTimeStart" class="form-label">Allowed ride start</label>
             <input asp-for="RideTimeStart" type="time" class="form-control" />
-            <span asp-validation-for="RideTimeStart" class="text-danger"></span>
+            <span asp-validation-for="RideTimeStart" class="text-danger small"></span>
         </div>
 
-        <div class="col-md-3 mb-3">
-            <label asp-for="RideTimeEnd"></label>
+        <!-- RideTimeEnd -->
+        <div class="col-md-3">
+            <label asp-for="RideTimeEnd" class="form-label">Allowed ride end</label>
             <input asp-for="RideTimeEnd" type="time" class="form-control" />
-            <span asp-validation-for="RideTimeEnd" class="text-danger"></span>
+            <span asp-validation-for="RideTimeEnd" class="text-danger small"></span>
+            <div class="invalid-feedback d-block" id="rideRangeHelp" style="display:none;">End time must be after start time.</div>
         </div>
 
-        <div class="col-md-3 mb-3">
-            <label asp-for="StatusAndCondition"></label>
-            <input asp-for="StatusAndCondition" class="form-control" />
-            <span asp-validation-for="StatusAndCondition" class="text-danger"></span>
+        <!-- StatusAndCondition -->
+        <div class="col-md-3">
+            <label asp-for="StatusAndCondition" class="form-label">Status & condition</label>
+            <input asp-for="StatusAndCondition" class="form-control" placeholder="e.g., Fit, slight limp on left" />
+            <span asp-validation-for="StatusAndCondition" class="text-danger small"></span>
         </div>
 
-        <div class="col-md-3 mb-3">
-
-            <label asp-for="StableID"></label>
+        <!-- StableID (readonly if already set) -->
+        <div class="col-md-3">
+            <label asp-for="StableID" class="form-label">Stable</label>
             @if (hasStableId)
             {
-                <!-- Read-only dropdown -->
-                <select asp-for="StableID" class="form-control" asp-items="@(new SelectList(ViewBag.Stables, "ID", "Name", Model.StableID))" disabled></select>
-                <!-- Hidden input so value still posts -->
+                <select asp-for="StableID" class="form-select" asp-items="@(new SelectList(ViewBag.Stables, "ID", "Name", Model.StableID))" disabled></select>
                 <input type="hidden" asp-for="StableID" />
+                <div class="form-text">Stable locked because this horse is already assigned.</div>
             }
             else
             {
-                <!-- Normal dropdown -->
-                <select asp-for="StableID" class="form-control" asp-items="@(new SelectList(ViewBag.Stables, "ID", "Name"))"></select>
+                <select asp-for="StableID" class="form-select" asp-items="@(new SelectList(ViewBag.Stables, "ID", "Name"))"></select>
             }
-            <span asp-validation-for="StableID" class="text-danger"></span>
+            <span asp-validation-for="StableID" class="text-danger small"></span>
         </div>
     </div>
 </div>
+
+@section Scripts {
+    <script>
+        (function () {
+            // Validation summary visibility toggle
+            const summary = document.querySelector('[asp-validation-summary]');
+            const observer = new MutationObserver(() => {
+                if (!summary) return;
+                const hasErrors = summary.innerText.trim().length > 0;
+                summary.classList.toggle('d-none', !hasErrors);
+            });
+            if (summary) observer.observe(summary, { childList: true, subtree: true });
+
+            // Derive age from BirthDate
+            const birthInput = document.getElementById('BirthDate');
+            const derived = document.getElementById('derived-age');
+            function calcAge() {
+                if (!birthInput || !birthInput.value) { derived.textContent = ''; return; }
+                const b = new Date(birthInput.value + 'T00:00:00');
+                const now = new Date();
+                let years = now.getFullYear() - b.getFullYear();
+                const m = now.getMonth() - b.getMonth();
+                if (m < 0 || (m === 0 && now.getDate() < b.getDate())) years--;
+                if (!isNaN(years)) derived.textContent = `≈ ${years} year${years === 1 ? '' : 's'} old`;
+            }
+            birthInput?.addEventListener('change', calcAge);
+            calcAge();
+
+            // Ride time range check (simple client-side)
+            const startEl = document.getElementById('RideTimeStart');
+            const endEl = document.getElementById('RideTimeEnd');
+            const help = document.getElementById('rideRangeHelp');
+            function validRange() {
+                if (!startEl?.value || !endEl?.value) { help.style.display = 'none'; return; }
+                const toMin = (v) => { const [h, m] = v.split(':').map(Number); return h * 60 + m; };
+                const ok = toMin(endEl.value) > toMin(startEl.value);
+                help.style.display = ok ? 'none' : 'block';
+            }
+            startEl?.addEventListener('change', validRange);
+            endEl?.addEventListener('change', validRange);
+            validRange();
+        })();
+    </script>
+}

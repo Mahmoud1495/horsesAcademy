@@ -1,20 +1,43 @@
 ﻿@model HorsesPOC.Models.Domain.Stable
 
-<div class="form-group">
-    <label asp-for="Name"></label>
-    <input asp-for="Name" class="form-control" />
-    <span asp-validation-for="Name" class="text-danger"></span>
-</div>
+@{
+    var hasOwner = Model?.OwnerId != Guid.Empty && Model?.OwnerId != null;
+}
 
-<div class="form-group">
-    <label asp-for="Location"></label>
-    <input asp-for="Location" class="form-control" />
-    <span asp-validation-for="Location" class="text-danger"></span>
-</div>
-<div class="form-group">
-    <label asp-for="OwnerId">Owner</label>
-    <select asp-for="OwnerId" class="form-control" asp-items="ViewBag.Owners">
-        <option value="">-- Select Owner --</option>
-    </select>
-    <span asp-validation-for="OwnerId" class="text-danger"></span>
+<div class="row g-3">
+    <div class="col-md-6">
+        <label asp-for="Name" class="form-label">Stable name</label>
+        <input asp-for="Name" class="form-control" placeholder="e.g., Golden Sands Stable" />
+        <span asp-validation-for="Name" class="text-danger small"></span>
+    </div>
+
+    <div class="col-md-6">
+        <label asp-for="Location" class="form-label">Location</label>
+        <input asp-for="Location" class="form-control" placeholder="City, Area (optional address)" />
+        <span asp-validation-for="Location" class="text-danger small"></span>
+    </div>
+
+    <div class="col-md-6">
+        <label asp-for="OwnerId" class="form-label">Owner</label>
+        @if (hasOwner)
+        {
+            <select asp-for="OwnerId" class="form-select" asp-items="ViewBag.Owners" disabled></select>
+            <input type="hidden" asp-for="OwnerId" />
+            <div class="form-text">Owner is locked for existing records.</div>
+        }
+        else
+        {
+            <select asp-for="OwnerId" class="form-select" asp-items="ViewBag.Owners">
+                <option value="">-- Select Owner --</option>
+            </select>
+        }
+        <span asp-validation-for="OwnerId" class="text-danger small"></span>
+    </div>
+
+    @* Optional: quick notes field if your domain model supports it
+    <div class="col-12">
+        <label asp-for="Notes" class="form-label">Notes</label>
+        <textarea asp-for="Notes" class="form-control" rows="3" placeholder="Care instructions, capacity, etc."></textarea>
+        <span asp-validation-for="Notes" class="text-danger small"></span>
+    </div> *@
 </div>

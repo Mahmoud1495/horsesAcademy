@@ -4,25 +4,74 @@
     ViewData["Title"] = "Delete Horse";
 }
 
-<h2>Delete Horse</h2>
+<h2 class="mb-3">Delete Horse</h2>
 
-<h4>Are you sure you want to delete <strong>@Model.Name</strong>?</h4>
-
-<div>
-    <dl class="row">
-        <dt class="col-sm-2">Age</dt>
-        <dd class="col-sm-10">@Model.Age</dd>
-
-        <dt class="col-sm-2">Weight</dt>
-        <dd class="col-sm-10">@Model.Weight</dd>
-
-        <dt class="col-sm-2">Gender</dt>
-        <dd class="col-sm-10">@Model.Gender</dd>
-    </dl>
+<div class="alert alert-warning d-flex align-items-start" role="alert">
+    <div class="me-2">
+        <i class="bi bi-exclamation-triangle-fill"></i>
+    </div>
+    <div>
+        <strong>Heads up:</strong> This action cannot be undone. Deleting <strong>@Model?.Name</strong> will permanently remove this record.
+    </div>
 </div>
 
-<form asp-action="DeleteConfirmed" method="post">
+<div class="card shadow-sm mb-3">
+    <div class="card-header bg-light">
+        <strong>Horse details</strong>
+    </div>
+    <div class="card-body">
+        <dl class="row mb-0">
+            <dt class="col-sm-3">Name</dt>
+            <dd class="col-sm-9">@Model?.Name</dd>
+
+            <dt class="col-sm-3">Age</dt>
+            <dd class="col-sm-9">@Model?.Age</dd>
+
+            <dt class="col-sm-3">Weight</dt>
+            <dd class="col-sm-9">@Model?.Weight</dd>
+
+            <dt class="col-sm-3">Gender</dt>
+            <dd class="col-sm-9">@Model?.Gender</dd>
+
+            @* Optional extras if available on the model *@
+            @if (Model?.Height != null)
+            {
+                <dt class="col-sm-3">Height</dt>
+                <dd class="col-sm-9">@Model.Height</dd>
+            }
+            @if (Model?.Category != null)
+            {
+                <dt class="col-sm-3">Category</dt>
+                <dd class="col-sm-9">@Model.Category</dd>
+            }
+            @if (Model?.StableID != null && Model.StableID != Guid.Empty && ViewBag?.StableName != null)
+            {
+                <dt class="col-sm-3">Stable</dt>
+                <dd class="col-sm-9">@ViewBag.StableName</dd>
+            }
+        </dl>
+    </div>
+</div>
+
+<form asp-action="DeleteConfirmed" method="post" class="d-flex gap-2">
+    @Html.AntiForgeryToken()
     <input type="hidden" asp-for="ID" />
-    <button type="submit" class="btn btn-danger">Delete</button>
+
+    <button type="submit" class="btn btn-danger">
+        <i class="bi bi-trash-fill me-1"></i> Delete
+    </button>
     <a asp-action="Index" class="btn btn-secondary">Cancel</a>
 </form>
+
+
+@section Scripts {
+    <script>
+        // Optional: double-confirm on submit
+        document.querySelector('form[asp-action="DeleteConfirmed"]').addEventListener('submit', function (e) {
+            const name = '@(Model?.Name ?? "this horse")';
+            if (!confirm(`Are you sure you want to permanently delete ${name}?`)) {
+                e.preventDefault();
+            }
+        });
+    </script>
+}

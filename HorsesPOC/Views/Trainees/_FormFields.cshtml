@@ -1,44 +1,59 @@
 ﻿@model HorsesPOC.Models.Domain.Trainee
 
-
 @{
-    var hasStableId = Model.StableID != Guid.Empty && Model.StableID != null;
+    var hasStableId = Model?.StableID != Guid.Empty && Model?.StableID != null;
 }
 
-<div class="form-group">
-    <label asp-for="Name"></label>
-    <input asp-for="Name" class="form-control" />
-    <span asp-validation-for="Name" class="text-danger"></span>
-</div>
-
-<div class="form-group">
-    <label asp-for="Age"></label>
-    <input asp-for="Age" class="form-control" />
-    <span asp-validation-for="Age" class="text-danger"></span>
-</div>
-
-<div class="form-group">
-    <label asp-for="PhoneNumber"></label>
-    <input asp-for="PhoneNumber" class="form-control" />
-    <span asp-validation-for="PhoneNumber" class="text-danger"></span>
-</div>
-
-<!-- Optional Stable dropdown -->
-@if (ViewBag.Stables != null)
-{
-    <div class="form-group">
-        <label asp-for="StableID" class="control-label">Stable</label>
-        @if (hasStableId)
-        {
-            <!-- Read-only dropdown -->
-            <select asp-for="StableID" class="form-control" asp-items="@(new SelectList(ViewBag.Stables, "ID", "Name", Model.StableID))" disabled></select>
-            <!-- Hidden input so value still posts -->
-            <input type="hidden" asp-for="StableID" />
-        }
-        else
-        {
-            <!-- Normal dropdown -->
-            <select asp-for="StableID" class="form-control" asp-items="@(new SelectList(ViewBag.Stables, "ID", "Name"))"></select>
-        }
+<div class="row g-3">
+    <div class="col-md-6">
+        <label asp-for="Name" class="form-label">Full name</label>
+        <input asp-for="Name" class="form-control" placeholder="e.g., Ahmed Saleh" />
+        <span asp-validation-for="Name" class="text-danger small"></span>
     </div>
-}
+
+    <div class="col-md-3">
+        <label asp-for="Age" class="form-label">Age</label>
+        <input asp-for="Age" class="form-control" inputmode="numeric" min="1" step="1" />
+        <span asp-validation-for="Age" class="text-danger small"></span>
+    </div>
+
+    <div class="col-md-6">
+        <label asp-for="PhoneNumber" class="form-label">Phone number</label>
+        <input asp-for="PhoneNumber" class="form-control" type="tel" placeholder="e.g., +9665XXXXXXXX" pattern="^\+?\d{7,15}$" />
+        <div class="form-text">Use digits only, optionally starting with + (7–15 digits).</div>
+        <span asp-validation-for="PhoneNumber" class="text-danger small"></span>
+    </div>
+
+    @if (ViewBag.Stables != null)
+    {
+        <div class="col-md-6">
+            <label asp-for="StableID" class="form-label">Stable</label>
+            @if (hasStableId)
+            {
+                <select asp-for="StableID" class="form-select" asp-items="@(new SelectList(ViewBag.Stables, "ID", "Name", Model.StableID))" disabled></select>
+                <input type="hidden" asp-for="StableID" />
+                <div class="form-text">Stable is locked for existing trainee.</div>
+            }
+            else
+            {
+                <select asp-for="StableID" class="form-select" asp-items="@(new SelectList(ViewBag.Stables, "ID", "Name"))">
+                    <option value="">-- Select Stable --</option>
+                </select>
+            }
+            <span asp-validation-for="StableID" class="text-danger small"></span>
+        </div>
+    }
+
+    @* Optional: guardian contact fields (uncomment if your domain model has them)
+    <div class="col-md-6">
+        <label asp-for="GuardianName" class="form-label">Guardian name</label>
+        <input asp-for="GuardianName" class="form-control" />
+        <span asp-validation-for="GuardianName" class="text-danger small"></span>
+    </div>
+    <div class="col-md-6">
+        <label asp-for="GuardianPhone" class="form-label">Guardian phone</label>
+        <input asp-for="GuardianPhone" class="form-control" type="tel" pattern="^\+?\d{7,15}$" />
+        <span asp-validation-for="GuardianPhone" class="text-danger small"></span>
+    </div>
+    *@
+</div>

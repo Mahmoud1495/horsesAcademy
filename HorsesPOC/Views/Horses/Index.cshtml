@@ -5,43 +5,66 @@
     var stableId = User.FindFirst("StableID")?.Value;
 }
 
-<h2>Horses List</h2>
-<a asp-action="Create" asp-route-StableID="@stableId" class="btn btn-primary">
-    Add New Horse
-</a>
+<h2 class="mb-3">Horses List</h2>
 
-<table class="table table-bordered table-striped">
-    <thead class="thead-dark">
-        <tr>
-            <th>Name</th>
-            <th>Age</th>
-            <th>Weight</th>
-            <th>Height</th>
-            <th>Gender</th>
-            <th>Category</th>
-            <th>Status</th>
-            <th>Stable</th>
-            <th>Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var horse in Model)
-        {
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <a asp-action="Create" asp-route-StableID="@stableId" class="btn btn-primary">
+        <i class="bi bi-plus-circle me-1"></i> Add New Horse
+    </a>
+</div>
+
+<div class="table-responsive">
+    <table class="table table-striped table-hover align-middle">
+        <thead class="table-dark">
             <tr>
-                <td>@horse.Name</td>
-                <td>@horse.Age</td>
-                <td>@horse.Weight</td>
-                <td>@horse.Height</td>
-                <td>@horse.Gender</td>
-                <td>@horse.Category</td>
-                <td>@horse.StatusAndCondition</td>
-                <td>@horse.Stable?.Name</td>
-                <td>
-                    <a class="btn btn-sm btn-info" asp-action="Details" asp-route-id="@horse.ID">Details</a>
-                    <a class="btn btn-sm btn-warning" asp-action="Edit" asp-route-id="@horse.ID">Edit</a>
-                    <a class="btn btn-sm btn-danger" asp-action="Delete" asp-route-id="@horse.ID">Delete</a>
-                </td>
+                <th>Name</th>
+                <th>Age</th>
+                <th>Weight</th>
+                <th>Height</th>
+                <th>Gender</th>
+                <th>Category</th>
+                <th>Status</th>
+                <th>Stable</th>
+                <th class="text-center">Actions</th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @if (Model != null && Model.Any())
+            {
+                foreach (var horse in Model)
+                {
+                    <tr>
+                        <td>@horse.Name</td>
+                        <td>@horse.Age</td>
+                        <td>@horse.Weight</td>
+                        <td>@horse.Height</td>
+                        <td>@horse.Gender</td>
+                        <td>@horse.Category</td>
+                        <td>@horse.StatusAndCondition</td>
+                        <td>@horse.Stable?.Name ?? <span class="text-muted">Unassigned</span></td>
+                        <td class="text-center">
+                            <div class="btn-group btn-group-sm" role="group">
+                                <a class="btn btn-info" asp-action="Details" asp-route-id="@horse.ID">
+                                    <i class="bi bi-eye"></i>
+                                </a>
+                                <a class="btn btn-warning" asp-action="Edit" asp-route-id="@horse.ID">
+                                    <i class="bi bi-pencil"></i>
+                                </a>
+                                <a class="btn btn-danger" asp-action="Delete" asp-route-id="@horse.ID">
+                                    <i class="bi bi-trash"></i>
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="9" class="text-center text-muted">No horses found.</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+

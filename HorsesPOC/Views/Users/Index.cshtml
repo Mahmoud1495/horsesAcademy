@@ -3,36 +3,59 @@
     ViewData["Title"] = "Users";
 }
 
-<h2>Users</h2>
+<h2 class="mb-3">Users</h2>
 
-<a asp-action="Create" class="btn btn-success mb-3">+ Add User</a>
+<a asp-action="Create" class="btn btn-success mb-3">
+    <i class="bi bi-person-plus"></i> Add User
+</a>
 
-<table class="table table-bordered table-hover">
-    <thead class="thead-light">
-        <tr>
-            <th>Name</th>
-            <th>Username</th>
-            <th>Phone</th>
-            <th>NID</th>
-            <th>User Type</th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var user in Model)
-        {
+<div class="table-responsive">
+    <table class="table table-bordered table-striped align-middle">
+        <thead class="table-dark">
             <tr>
-                <td>@user.Name</td>
-                <td>@user.UserName</td>
-                <td>@user.PhoneNumber</td>
-                <td>@user.NID</td>
-                <td>@user.UserType</td>
-                <td>
-                    <a asp-action="Details" asp-route-id="@user.Id" class="btn btn-sm btn-info">Details</a>
-                    <a asp-action="Edit" asp-route-id="@user.Id" class="btn btn-sm btn-warning">Edit</a>
-                    <a asp-action="Delete" asp-route-id="@user.Id" class="btn btn-sm btn-danger">Delete</a>
-                </td>
+                <th>Name</th>
+                <th>Username</th>
+                <th>Phone</th>
+                <th>NID</th>
+                <th>User Type</th>
+                <th class="text-center" style="width:200px;">Actions</th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @if (Model != null && Model.Any())
+            {
+                @foreach (var user in Model)
+                {
+                    <tr>
+                        <td>@user.Name</td>
+                        <td>@user.UserName</td>
+                        <td>@user.PhoneNumber</td>
+                        <td>@user.NID</td>
+                        <td>@user.UserType</td>
+                        <td class="text-center">
+                            <div class="btn-group" role="group">
+                                <a asp-action="Details" asp-route-id="@user.Id" class="btn btn-sm btn-info">
+                                    <i class="bi bi-eye"></i> Details
+                                </a>
+                                <a asp-action="Edit" asp-route-id="@user.Id" class="btn btn-sm btn-warning">
+                                    <i class="bi bi-pencil"></i> Edit
+                                </a>
+                                <a asp-action="Delete" asp-route-id="@user.Id" class="btn btn-sm btn-danger">
+                                    <i class="bi bi-trash"></i> Delete
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="6" class="text-center text-muted">
+                        No users found.
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

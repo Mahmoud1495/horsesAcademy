@@ -1,48 +1,79 @@
 ﻿@model IEnumerable<HorsesPOC.Models.Domain.Stable>
+
 @{
     ViewData["Title"] = "Stables";
 }
 
-<h2>Stables</h2>
+<h2 class="mb-3">Stables</h2>
 
-<a asp-action="Create" class="btn btn-success mb-3">+ Add New Stable</a>
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <a asp-action="Create" class="btn btn-success">
+        <i class="bi bi-plus-circle me-1"></i> Add New Stable
+    </a>
+</div>
 
-<div class="row">
-    @foreach (var stable in Model)
-    {
-        <div class="col-md-6 col-lg-4 mb-4">
-            <div class="card shadow">
-                <div class="card-body">
-                    <h5 class="card-title">@stable.Name</h5>
-                    <p class="card-text"><strong>Location:</strong> @stable.Location</p>
+@if (Model != null && Model.Any())
+{
+    <div class="row">
+        @foreach (var stable in Model)
+        {
+            <div class="col-md-6 col-lg-4 mb-4">
+                <div class="card shadow-sm h-100">
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title">@stable.Name</h5>
+                        <p class="card-text mb-1"><strong>Location:</strong> @stable.Location</p>
 
-                    <p>
-                        <strong>Horses:</strong>
-                        
-                        <a asp-controller="Horses" asp-action="Index" asp-route-StableID="@stable.ID" class="badge bg-primary text-decoration-none">
-                            @stable.Horses?.Count() 
-                        </a>
-                    </p>
-                   
+                        <p class="mb-1">
+                            <strong>Horses:</strong>
+                            <a asp-controller="Horses" asp-action="Index" asp-route-StableID="@stable.ID"
+                               class="badge bg-primary text-decoration-none">
+                                @stable.Horses?.Count() ?? 0
+                            </a>
+                        </p>
 
-                    <p>
-                        <strong>Trainees:</strong>
-                        <a asp-controller="Trainees" asp-action="Index" asp-route-StableID="@stable.ID" class="badge bg-primary text-decoration-none">
-                            @stable.Trainees?.Count()
-                        </a>
-                    </p>
+                        <p class="mb-1">
+                            <strong>Trainees:</strong>
+                            <a asp-controller="Trainees" asp-action="Index" asp-route-StableID="@stable.ID"
+                               class="badge bg-primary text-decoration-none">
+                                @stable.Trainees?.Count() ?? 0
+                            </a>
+                        </p>
 
-                    <p>
-                        <strong>Owner:</strong>
-                        <a asp-controller="Users" asp-action="Details" asp-route-id="@stable.Owner?.Id" class="badge bg-primary text-decoration-none">
-                            @stable.Owner?.UserName
-                        </a>
-                    </p>
-                    <a asp-action="Details" asp-route-id="@stable.ID" class="btn btn-sm btn-info">Details</a>
-                    <a asp-action="Edit" asp-route-id="@stable.ID" class="btn btn-sm btn-warning">Edit</a>
-                    <a asp-action="Delete" asp-route-id="@stable.ID" class="btn btn-sm btn-danger">Delete</a>
+                        <p class="mb-3">
+                            <strong>Owner:</strong>
+                            @if (stable.Owner != null)
+                            {
+                                <a asp-controller="Users" asp-action="Details" asp-route-id="@stable.Owner.Id"
+                                   class="badge bg-secondary text-decoration-none">
+                                    @stable.Owner.UserName
+                                </a>
+                            }
+                            else
+                            {
+                                <span class="badge bg-light text-muted">Unassigned</span>
+                            }
+                        </p>
+
+                        <div class="mt-auto d-flex gap-2">
+                            <a asp-action="Details" asp-route-id="@stable.ID" class="btn btn-sm btn-info">
+                                <i class="bi bi-eye"></i>
+                            </a>
+                            <a asp-action="Edit" asp-route-id="@stable.ID" class="btn btn-sm btn-warning">
+                                <i class="bi bi-pencil"></i>
+                            </a>
+                            <a asp-action="Delete" asp-route-id="@stable.ID" class="btn btn-sm btn-danger">
+                                <i class="bi bi-trash"></i>
+                            </a>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
-    }
-</div>
+        }
+    </div>
+}
+else
+{
+    <div class="alert alert-info">
+        <i class="bi bi-info-circle me-1"></i> No stables found. You can create one using the button above.
+    </div>
+}

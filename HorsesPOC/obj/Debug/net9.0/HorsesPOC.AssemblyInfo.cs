@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("HorsesPOC")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f9fde040e966b4fa53039ca20d3b1d81cd14b031")]
 [assembly: System.Reflection.AssemblyProductAttribute("HorsesPOC")]
 [assembly: System.Reflection.AssemblyTitleAttribute("HorsesPOC")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

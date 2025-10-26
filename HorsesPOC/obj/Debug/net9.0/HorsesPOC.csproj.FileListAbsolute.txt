@@ -230,3 +230,4 @@ D:\Projects\HorsesAcadmy\HorsesPOC\HorsesPOC\obj\Debug\net9.0\HorsesPOC.csproj.A
 D:\Projects\HorsesAcadmy\HorsesPOC\HorsesPOC\obj\Debug\net9.0\HorsesPOC.csproj.Up2Date
 D:\Projects\HorsesAcadmy\HorsesPOC\HorsesPOC\obj\Debug\net9.0\staticwebassets.upToDateCheck.txt
 D:\Projects\HorsesAcadmy\HorsesPOC\HorsesPOC\bin\Debug\net9.0\QRCoder.dll
+D:\Projects\HorsesAcadmy\HorsesPOC\HorsesPOC\obj\Debug\net9.0\HorsesPOC.sourcelink.json

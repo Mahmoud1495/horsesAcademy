@@ -5,21 +5,41 @@
     var stableId = Context.Request.Query["StableID"].ToString();
 }
 
-<h2>Edit Trainee</h2>
+<h2 class="mb-3">Edit Trainee</h2>
 
-<form asp-action="Edit" method="post">
+<form asp-action="Edit" method="post" class="mt-3">
+    @Html.AntiForgeryToken()
     <input type="hidden" asp-for="ID" />
 
-    @Html.Partial("_FormFields", Model)
+    <!-- Model-level validation summary -->
+    <div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert"></div>
 
-    <button type="submit" class="btn btn-primary mt-2">Update</button>
-    <a asp-action="Index"
-       asp-route-StableID="@stableId"
-       class="btn btn-secondary mt-2">
-        Back
-    </a>
+    <div class="card shadow-sm">
+        <div class="card-body">
+            @Html.Partial("_FormFields", Model)
+        </div>
+        <div class="card-footer d-flex justify-content-end gap-2">
+            <button type="submit" class="btn btn-primary">
+                <i class="bi bi-save me-1"></i> Update
+            </button>
+            @if (!string.IsNullOrEmpty(stableId))
+            {
+                <a asp-action="Index" asp-route-StableID="@stableId" class="btn btn-secondary">
+                    <i class="bi bi-arrow-left-circle me-1"></i> Back
+                </a>
+            }
+            else
+            {
+                <a asp-action="Index" class="btn btn-secondary">
+                    <i class="bi bi-arrow-left-circle me-1"></i> Back
+                </a>
+            }
+        </div>
+    </div>
 </form>
 
+
 @section Scripts {
+    @* Include if not already loaded in layout *@
     <partial name="_ValidationScriptsPartial" />
 }

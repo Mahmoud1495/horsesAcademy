@@ -4,36 +4,43 @@
     ViewData["Title"] = "Trainee Details";
 }
 
-<h2>Trainee Details</h2>
+<h2 class="mb-3">Trainee Details</h2>
 
-<div class="card p-3">
-    <dl class="row mb-0">
-        <dt class="col-sm-2">Name</dt>
-        <dd class="col-sm-10">@Model.Name</dd>
+<div class="card shadow-sm">
+    <div class="card-body">
+        <dl class="row mb-0">
+            <dt class="col-sm-3">Name</dt>
+            <dd class="col-sm-9">@Model.Name</dd>
 
-        <dt class="col-sm-2">Age</dt>
-        <dd class="col-sm-10">@Model.Age</dd>
+            <dt class="col-sm-3">Age</dt>
+            <dd class="col-sm-9">@Model.Age</dd>
 
-        <dt class="col-sm-2">Phone</dt>
-        <dd class="col-sm-10">@Model.PhoneNumber</dd>
+            <dt class="col-sm-3">Phone</dt>
+            <dd class="col-sm-9">@Model.PhoneNumber</dd>
 
-        <dt class="col-sm-2">Stable</dt>
-        <dd class="col-sm-10">@Model.Stable?.Name</dd>
-    </dl>
+            <dt class="col-sm-3">Stable</dt>
+            <dd class="col-sm-9">@Model.Stable?.Name ?? "Unassigned"</dd>
+        </dl>
 
-    @if (!string.IsNullOrEmpty(Model.QRCode))
-    {
-        <div class="mt-3">
-            <label>QR Code</label><br />
-            <a href="@Model.QRCode" download="@($"TraineeQR-{Model.Name}.png")">
-                <img src="@Model.QRCode" alt="QR Code" width="150" style="cursor: pointer;" />
-            </a>
-            <p class="text-muted small mt-1">Click the QR code to download</p>
-        </div>
-    }
+        @if (!string.IsNullOrEmpty(Model.QRCode))
+        {
+            <hr />
+            <div class="mt-3 text-center">
+                <label class="fw-bold">QR Code</label><br />
+                <a href="@Model.QRCode" download="@($"TraineeQR-{Model.Name}.png")" class="d-inline-block">
+                    <img src="@Model.QRCode" alt="QR Code for @Model.Name" class="img-thumbnail" style="max-width: 200px;" />
+                </a>
+                <p class="text-muted small mt-1">Click the QR code to download</p>
+            </div>
+        }
+    </div>
+
+    <div class="card-footer d-flex justify-content-end gap-2">
+        <a asp-action="Edit" asp-route-id="@Model.ID" class="btn btn-warning">
+            <i class="bi bi-pencil-square me-1"></i> Edit
+        </a>
+        <a asp-action="Index" class="btn btn-secondary">
+            <i class="bi bi-arrow-left-circle me-1"></i> Back
+        </a>
+    </div>
 </div>
-
-<p class="mt-3">
-    <a asp-action="Edit" asp-route-id="@Model.ID" class="btn btn-warning">Edit</a>
-    <a asp-action="Index" class="btn btn-secondary">Back</a>
-</p>
