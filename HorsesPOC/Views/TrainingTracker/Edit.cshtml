@@ -1,0 +1,13 @@
+﻿@model HorsesPOC.Models.Domain.TrainingTracker
+@{
+	ViewData["Title"] = "Edit Training Session";
+}
+
+<h2>Edit Training Session</h2>
+
+<form asp-action="Edit" method="post">
+	<input type="hidden" asp-for="Id" />
+	<partial name="_FormFields" />
+	<button type="submit" class="btn btn-success">Update</button>
+	<a asp-action="Index" class="btn btn-secondary">Cancel</a>
+</form>

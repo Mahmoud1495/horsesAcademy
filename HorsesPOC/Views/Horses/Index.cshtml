@@ -25,6 +25,7 @@
                 <th>Category</th>
                 <th>Status</th>
                 <th>Stable</th>
+                <th>QR Code</th>
                 <th class="text-center">Actions</th>
             </tr>
         </thead>
@@ -41,7 +42,16 @@
                         <td>@horse.Gender</td>
                         <td>@horse.Category</td>
                         <td>@horse.StatusAndCondition</td>
-                        <td>@horse.Stable?.Name ?? <span class="text-muted">Unassigned</span></td>
+                        <td>@horse.Stable?.Name </td>
+                        <td>
+                            @if (!string.IsNullOrEmpty(horse.QRCode))
+                            {
+                                <a href="@horse.QRCode"
+                                   download="@($"HorseQR-{horse.Name.Replace(" ", "_")}.png")">
+                                    <img src="@horse.QRCode" class="img-thumbnail" style="max-width:60px;" alt="QR Code" />
+                                </a>
+                            }
+                        </td>
                         <td class="text-center">
                             <div class="btn-group btn-group-sm" role="group">
                                 <a class="btn btn-info" asp-action="Details" asp-route-id="@horse.ID">

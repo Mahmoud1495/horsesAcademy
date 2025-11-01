@@ -35,6 +35,15 @@
             top: 10px;
             right: 100px;
         }
+
+        html[data-bs-theme="dark"] .nav-link.text-dark {
+            color: #fff !important;
+        }
+
+        html[data-bs-theme="dark"] #trainee-list .list-group-item {
+            background-color: #333;
+            color: #fff;
+        }
     </style>
 </head>
 <body>
@@ -92,6 +101,9 @@
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-controller="Trainees" asp-action="Index"
                                    asp-route-StableID="@stableId">Trainees</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-controller="TrainingTracker" asp-action="Index">Training Tracker</a>
                             </li>
                         }
 

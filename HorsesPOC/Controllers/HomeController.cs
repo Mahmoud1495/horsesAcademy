@@ -50,13 +50,14 @@ namespace HorsesPOC.Controllers
 			return View();
         }
 
-		public async Task<Guid> CreateTrainingRecord(Guid traineeId)
+		public async Task<Guid> CreateTrainingRecord(Guid traineeId,Guid horseId)
 		{
 			var tracker = new TrainingTracker()
 			{
 				Id = Guid.NewGuid(),
 				StartTime = DateTime.Now,
 				TraineeId = traineeId,
+				HorseId = horseId,
 				Stage = Enums.SessionStage.One
 			};
 			await _context.TrainingTracker.AddAsync(tracker);

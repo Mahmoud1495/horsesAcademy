@@ -73,8 +73,8 @@ namespace HorsesPOC.Controllers
 					Directory.CreateDirectory(qrFolder);
 
 				// Use trainee ID or other info for QR content
-				//string qrContent = $"Trainee:{trainee.ID}|Name:{trainee.Name}|Phone:{trainee.PhoneNumber}";
-				string qrContent = $"{trainee.ID}";
+				string qrContent = $"trainee:{trainee.ID}";
+				
 
 				// Generate QR code
 				using (var qrGenerator = new QRCoder.QRCodeGenerator())

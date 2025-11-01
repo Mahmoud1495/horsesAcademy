@@ -1,0 +1,87 @@
+﻿@model IEnumerable<HorsesPOC.Models.Domain.TrainingTracker>
+
+@{
+    ViewData["Title"] = "Trainees";
+}
+
+<h2>Training Sessions</h2>
+
+<form method="get" class="mb-4 p-3 border rounded bg-light">
+    <div class="row g-3 align-items-end">
+        <!-- Trainee Dropdown -->
+        <div class="col-md-3">
+            <label for="traineeId" class="form-label">Trainee</label>
+            <select name="traineeId" class="form-select">
+                <option value="">All Trainees</option>
+                @foreach (var trainee in (List<HorsesPOC.Models.Domain.Trainee>)ViewBag.Trainees)
+                {
+                    <option value="@trainee.ID" selected="@(ViewBag.SelectedTraineeId == trainee.ID ? "selected" : null)">
+                        @trainee.Name
+                    </option>
+                }
+            </select>
+        </div>
+
+        <!-- Horse Dropdown -->
+        <div class="col-md-3">
+            <label for="horseId" class="form-label">Horse</label>
+            <select name="horseId" class="form-select">
+                <option value="">All Horses</option>
+                @foreach (var horse in (List<HorsesPOC.Models.Domain.Horse>)ViewBag.Horses)
+                {
+                    <option value="@horse.ID" selected="@(ViewBag.SelectedHorseId == horse.ID ? "selected" : null)">
+                        @horse.Name
+                    </option>
+                }
+            </select>
+        </div>
+
+        <div class="col-md-2">
+            <label for="startDate" class="form-label">Date</label>
+            <input type="date" name="startDate" value="@ViewBag.StartDate" class="form-control" />
+        </div>
+
+
+        <div class="col-12 text-end mt-3">
+            <button type="submit" class="btn btn-primary">Search</button>
+            <a asp-action="Index" class="btn btn-secondary">Reset</a>
+        </div>
+    </div>
+</form>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Trainee</th>
+            <th>Horse</th>
+            <th>Start</th>
+            <th>End</th>
+            <th>Stage</th>
+            <th>Duration (min)</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (!Model.Any())
+        {
+            <tr>
+                <td colspan="7" class="text-center text-muted">No sessions found matching your filters.</td>
+            </tr>
+        }
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Trainee?.Name</td>
+                <td>@item.Horse?.Name</td>
+                <td>@item.StartTime.ToString("g")</td>
+                <td>@item.EndTime?.ToString("g")</td>
+                <td>@item.Stage</td>
+                <td>@item.ActualTrainingInMin</td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-info">Details</a>
+                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-danger">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

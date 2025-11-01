@@ -35,7 +35,7 @@
     </div>
 </div>
 
-<form asp-action="DeleteConfirmed" method="post" class="d-flex gap-2" onsubmit="return confirm('Are you sure you want to permanently delete this trainee?');">
+<form asp-action="Delete" method="post" class="d-flex gap-2" onsubmit="return confirm('Are you sure you want to permanently delete this trainee?');">
     @Html.AntiForgeryToken()
     <input type="hidden" asp-for="ID" />
 

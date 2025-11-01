@@ -4,6 +4,7 @@ using HorsesPOC.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HorsesPOC.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251027202155_horseqrcode")]
+    partial class horseqrcode
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -146,9 +149,6 @@ namespace HorsesPOC.Migrations
                     b.Property<DateTime?>("EndTime")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid>("HorseId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<int>("Stage")
                         .HasColumnType("int");
 
@@ -159,8 +159,6 @@ namespace HorsesPOC.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("HorseId");
 
                     b.HasIndex("TraineeId");
 
@@ -206,7 +204,7 @@ namespace HorsesPOC.Migrations
                     b.HasOne("HorsesPOC.Models.Domain.Stable", "Stable")
                         .WithMany("Horses")
                         .HasForeignKey("StableID")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Stable");
@@ -228,7 +226,7 @@ namespace HorsesPOC.Migrations
                     b.HasOne("HorsesPOC.Models.Domain.Stable", "Stable")
                         .WithMany("Trainees")
                         .HasForeignKey("StableID")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Stable");
@@ -236,26 +234,11 @@ namespace HorsesPOC.Migrations
 
             modelBuilder.Entity("HorsesPOC.Models.Domain.TrainingTracker", b =>
                 {
-                    b.HasOne("HorsesPOC.Models.Domain.Horse", "Horse")
-                        .WithMany("Sessions")
-                        .HasForeignKey("HorseId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("HorsesPOC.Models.Domain.Trainee", "Trainee")
+                    b.HasOne("HorsesPOC.Models.Domain.Trainee", null)
                         .WithMany("Sessions")
                         .HasForeignKey("TraineeId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Horse");
-
-                    b.Navigation("Trainee");
-                });
-
-            modelBuilder.Entity("HorsesPOC.Models.Domain.Horse", b =>
-                {
-                    b.Navigation("Sessions");
                 });
 
             modelBuilder.Entity("HorsesPOC.Models.Domain.Stable", b =>

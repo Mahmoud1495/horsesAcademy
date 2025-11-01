@@ -45,7 +45,7 @@ namespace HorsesPOC.Services.Auth
 			else
 			{
 				if (Controller == "Horses" 
-					|| Controller == "Trainees" || Controller == "Home")
+					|| Controller == "Trainees" || Controller == "Home" || Controller == "TrainingTracker")
 					return true;
 				else
 					return false;

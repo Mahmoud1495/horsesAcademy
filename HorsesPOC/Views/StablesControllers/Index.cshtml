@@ -27,7 +27,7 @@
                             <strong>Horses:</strong>
                             <a asp-controller="Horses" asp-action="Index" asp-route-StableID="@stable.ID"
                                class="badge bg-primary text-decoration-none">
-                                @stable.Horses?.Count() ?? 0
+                                @stable.Horses?.Count() 
                             </a>
                         </p>
 
@@ -35,7 +35,7 @@
                             <strong>Trainees:</strong>
                             <a asp-controller="Trainees" asp-action="Index" asp-route-StableID="@stable.ID"
                                class="badge bg-primary text-decoration-none">
-                                @stable.Trainees?.Count() ?? 0
+                                @stable.Trainees?.Count() 
                             </a>
                         </p>
 

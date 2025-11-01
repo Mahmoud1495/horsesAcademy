@@ -17,6 +17,8 @@ namespace HorsesPOC.Models.Domain
 		public DateTime BirthDate { get; set; }
 		public float Height { get; set; }
 		public string Gender { get; set; }
+		[ValidateNever]
+		public string QRCode { get; set; }
 
 		public HorseCategory Category { get; set; }
 		public string StatusAndCondition { get; set; }
@@ -26,5 +28,8 @@ namespace HorsesPOC.Models.Domain
 
 		[ValidateNever]
 		public virtual Stable Stable { get; set; }
+
+		[ValidateNever]
+		public virtual ICollection<TrainingTracker> Sessions { get; set; }
 	}
 }

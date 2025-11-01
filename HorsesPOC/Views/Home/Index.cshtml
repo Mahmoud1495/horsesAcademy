@@ -3,6 +3,17 @@
 }
 
 <style>
+    .hideClass {
+        opacity: 0;
+        max-height: 0;
+        margin: 0 !important;
+        padding: 0 !important;
+        overflow: hidden;
+        transition: all 0.4s ease;
+    }
+
+  
+   
     /* Subtle polish */
     .card {
         border: 0;
@@ -38,18 +49,22 @@
 
 <div class="container-fluid py-4">
     <div class="text-center mb-4">
-        <h2 class="mb-1">Training Dashboard</h2>
+        <h2 class="mb-1">Training Dashboard  <button id="toggle-hide" class="btn btn-dark">Display Mode</button></h2>
+       
+        <!-- GLOBAL HIDE/SHOW TOGGLE BUTTON -->
+        
         @* <p class="text-muted">Manage trainees, control timers, and track prayer times</p> *@
     </div>
 
     <div class="row g-4">
+       
         <!-- LEFT SIDE: LIVE DISPLAY -->
         <div class="col-md-8">
             <div class="card shadow-soft h-100">
                 <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
                     <strong>Live Timer Display</strong>
                     <div class="d-flex align-items-center gap-2">
-                        <div class="input-group input-group-sm" style="width: 160px;">
+                        <div class="input-group input-group-sm toggleMode" style="width: 160px;">
                             <span class="input-group-text">Rotate</span>
                             <input type="number" id="rotate-seconds" class="form-control" value="5" min="1" aria-label="Seconds per view" />
                             <span class="input-group-text">sec</span>
@@ -78,12 +93,12 @@
         <div class="col-md-4">
             <!-- Add Trainee -->
             <div class="card shadow-soft mb-4">
-                <div class="card-header bg-info text-white d-flex justify-content-between align-items-center">
+                <div class="card-header bg-info text-white d-flex justify-content-between align-items-center toggleMode">
                     <strong>Add Horse/Trainee</strong>
                     <small class="opacity-75">Fields required</small>
                 </div>
                 <div class="card-body">
-                    <form id="trainee-form" class="row g-2" autocomplete="off">
+                    <form id="trainee-form" class="row g-2 toggleMode" autocomplete="off">
                         <button id="start-qr" type="button" class="btn btn-success btn-sm">Scan QR</button>
                         <div class="mb-3">
                             @* <label class="form-label">QR Code Value</label>
@@ -128,7 +143,7 @@
             </div>
 
             <!-- Controls -->
-            <div class="card shadow-soft">
+            <div class="card shadow-soft toggleMode">
                 <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
                     <strong>Controls</strong>
                 </div>
@@ -156,7 +171,7 @@
     </div>
 
     <!-- PRAYER TIMES -->
-    <div class="card shadow-soft mt-4">
+    <div class="card shadow-soft mt-4 toggleMode">
         <div class="card-header bg-secondary text-white d-flex justify-content-between align-items-center">
             <strong>Prayer Times</strong>
             <div class="d-flex align-items-center gap-2">
@@ -167,6 +182,17 @@
                     <option value="Madinah">Madinah</option>
                 </select>
                 <button id="load-prayers" class="btn btn-light btn-sm">Reload</button>
+            </div>
+        </div>
+        <div class="d-flex align-items-center gap-3">
+            <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" id="apply-prayers">
+                <label class="form-check-label" for="apply-prayers">Apply Prayer Times</label>
+            </div>
+            <div class="input-group input-group-sm" style="width: 200px;">
+                <span class="input-group-text">Pause Duration</span>
+                <input type="number" id="prayer-pause-min" class="form-control" value="10" min="1">
+                <span class="input-group-text">min</span>
             </div>
         </div>
         <div class="card-body">
@@ -478,9 +504,9 @@
         });
 
 
-                async function createTrainingRecord(traineeId) {
+                async function createTrainingRecord(traineeId,horseId) {
             try {
-                const res = await fetch('/Home/CreateTrainingRecord?traineeId='+traineeId, {
+                const res = await fetch('/Home/CreateTrainingRecord?traineeId='+traineeId+'&horseId='+horseId, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -529,7 +555,7 @@
             const horseId = horseSelect.value;
             const duration = Math.max(1, parseInt(document.getElementById('timer-duration').value || '5', 10)) * 60;
             if (!trainee || !horse) return;
-            debugger;
+            
            
        
             // Prevent duplicates for same trainee-horse pair
@@ -537,8 +563,8 @@
             if (already) { alert('This trainee or horse is already assigned to a timer.'); return; }
             
              // Call API to create training record
-        const sessionId = await createTrainingRecord(traineeId);
-        debugger;
+        const sessionId = await createTrainingRecord(traineeId,horseId);
+       
             // Remove chosen options while active
             removeOption('trainee-name', traineeId);
             removeOption('horse-name', horseId);
@@ -582,48 +608,100 @@
         const qrReader = document.getElementById('qr-reader');
         let qrInstance = null;
 
-                function startQr() {
-            if (qrInstance) return; // already started
+                let qrPhase = 0; // 0 = waiting for trainee, 1 = waiting for horse
+        let scannedTrainee = null;
+        let scannedHorse = null;
+
+        function parseQrText(text) {
+            const parts = text.trim().split(':');
+            if (parts.length === 2) {
+                const type = parts[0].toLowerCase();
+                const id = parts[1].trim();
+                if ((type === 'trainee' || type === 'horse') && id.match(/^[0-9a-fA-F-]{36}$/)) {
+                    return { type, id };
+                }
+            }
+            return null;
+        }
+
+        function startQr() {
+            if (qrInstance) return;
             qrReader.style.display = 'block';
             qrInstance = new Html5Qrcode('qr-reader');
+            qrPhase = 0;
+            scannedTrainee = null;
+            scannedHorse = null;
+
+            speak("Please scan trainee QR code.");
 
             qrInstance.start(
                 { facingMode: 'environment' },
                 { fps: 10, qrbox: 200 },
-                decodedText => {
-                    // Put the decoded text in the input box
-                    qrValueInput.value = decodedText.trim();
-
-                    // ===============================
-                    // 🔍 Try to auto-select trainee
-                    // ===============================
-                    const traineeSelect = document.getElementById('trainee-name');
-                    const textLower = decodedText.trim().toLowerCase();
-
-                    let found = false;
-                    for (const option of traineeSelect.options) {
-                        if (option.text.trim().toLowerCase() === textLower ||
-                            option.value.trim().toLowerCase() === textLower) {
-                            option.selected = true;
-                            found = true;
-                            break;
-                        }
+                async decodedText => {
+                    const parsed = parseQrText(decodedText);
+                    if (!parsed) {
+                        alert(`Invalid QR format: ${decodedText}`);
+                        return;
                     }
 
-                    if (found) {
-                        // If you are using Select2 or Choices.js, trigger UI refresh
-                        if (window.$ && $('#trainee-name').data('select2')) {
-                            $('#trainee-name').trigger('change.select2');
-                        } else if (traineeSelect.choices) {
-                            traineeSelect.choices.setChoiceByValue(decodedText);
+                    if (parsed.type === 'trainee') {
+                        const traineeSelect = document.getElementById('trainee-name');
+                        const opt = traineeSelect.querySelector(`option[value="${CSS.escape(parsed.id)}"]`);
+                        if (!opt) {
+                            alert(`No trainee found with ID ${parsed.id}`);
+                            return;
                         }
-                        console.log(`Selected trainee: ${decodedText}`);
-                    } else {
-                        alert(`No trainee found matching "${decodedText}"`);
+
+                        traineeSelect.value = parsed.id;
+                        scannedTrainee = { id: parsed.id, name: opt.text };
+                        speak(`Trainee ${opt.text} scanned. Now scan horse QR code.`);
+                        qrPhase = 1;
+                        return;
                     }
 
-                    // (Optional) Start the timer directly
-                    // startTimerByQr(decodedText);
+                    if (parsed.type === 'horse') {
+                        const horseSelect = document.getElementById('horse-name');
+                        const opt = horseSelect.querySelector(`option[value="${CSS.escape(parsed.id)}"]`);
+                        if (!opt) {
+                            alert(`No horse found with ID ${parsed.id}`);
+                            return;
+                        }
+
+                        horseSelect.value = parsed.id;
+                        scannedHorse = { id: parsed.id, name: opt.text };
+                    }
+
+                    // If we have both trainee + horse, create the timer
+                    if (scannedTrainee && scannedHorse) {
+                        const duration = Math.max(1, parseInt(document.getElementById('timer-duration').value || '5', 10)) * 60;
+                        const already = Object.values(timers).some(
+                            t => t.traineeId == scannedTrainee.id || t.horseId == scannedHorse.id
+                        );
+                        if (already) {
+                            alert('This trainee or horse already has an active timer.');
+                            return;
+                        }
+
+                        const sessionId = await createTrainingRecord(scannedTrainee.id);
+                        const id = `${scannedTrainee.name}-${Date.now()}`;
+                        timers[id] = {
+                            trainee: scannedTrainee.name,
+                            horse: scannedHorse.name,
+                            traineeId: scannedTrainee.id,
+                            horseId: scannedHorse.id,
+                            sessionId,
+                            remaining: duration,
+                            total: duration,
+                            active: false,
+                            done: false
+                        };
+                        saveTimers();
+                        addTimerItem(id, scannedTrainee.name, scannedHorse.name, duration, scannedTrainee.id, scannedHorse.id);
+                        startTimer(id);
+
+                        speak(`Timer started for ${scannedTrainee.name} with ${scannedHorse.name}.`);
+                        stopQr(); // stop camera
+                    }
                 }
             ).catch(err => {
                 console.error('QR camera error:', err);
@@ -632,6 +710,8 @@
                 qrInstance = null;
             });
         }
+
+
 
 
         function stopQr() {
@@ -695,6 +775,68 @@
 
         document.getElementById('load-prayers').addEventListener('click', loadPrayerTimes);
         loadPrayerTimes();
+                // =====================
+        // Prayer Time Controls
+        // =====================
+        const applyPrayerToggle = document.getElementById('apply-prayers');
+        const prayerPauseMinInput = document.getElementById('prayer-pause-min');
+        let prayerCheckInterval = null;
+        let prayerActive = false;
+
+        function getTodayPrayerTimes() {
+            const map = ['fajr', 'dhuhr', 'asr', 'maghrib', 'isha'];
+            const times = {};
+            map.forEach(name => {
+                const el = document.getElementById(`${name}-time`);
+                if (el && el.value) {
+                    const [h, m] = el.value.split(':').map(Number);
+                    const date = new Date();
+                    date.setHours(h, m, 0, 0);
+                    times[name] = date;
+                }
+            });
+            return times;
+        }
+
+        function withinPrayer(prayerTimes, now = new Date()) {
+            const pauseAfter = parseInt(prayerPauseMinInput.value || '10', 10) * 60000;
+            for (const [name, time] of Object.entries(prayerTimes)) {
+                const end = new Date(time.getTime() + pauseAfter);
+                if (now >= time && now <= end) {
+                    return name; // we're within a prayer window
+                }
+            }
+            return null;
+        }
+
+        function startPrayerWatcher() {
+            if (prayerCheckInterval) clearInterval(prayerCheckInterval);
+            if (!applyPrayerToggle.checked) return;
+
+            prayerCheckInterval = setInterval(() => {
+                const prayerTimes = getTodayPrayerTimes();
+                const now = new Date();
+                const activePrayer = withinPrayer(prayerTimes, now);
+
+                if (activePrayer && !prayerActive) {
+                    // Pause all timers
+                    prayerActive = true;
+                    pauseAllBtn.click();
+                    speak(`Prayer time started for ${activePrayer}. All timers paused.`);
+                    console.log(`⏸️ Prayer time active: ${activePrayer}`);
+                }
+                else if (!activePrayer && prayerActive) {
+                    // Resume timers
+                    prayerActive = false;
+                    resumeAllBtn.click();
+                    speak(`Prayer time ended. Timers resumed.`);
+                    console.log('▶️ Prayer period ended.');
+                }
+            }, 30 * 1000); // check every 30 seconds
+        }
+
+        applyPrayerToggle.addEventListener('change', startPrayerWatcher);
+        prayerPauseMinInput.addEventListener('change', startPrayerWatcher);
 
                 $(document).ready(function () {
             $('#trainee-name').select2({
@@ -705,6 +847,28 @@
                 placeholder: "Select Horse",
                 width: '100%'
             });
+        });
+
+                // ====== GLOBAL HIDE/SHOW TOGGLE ======
+        const toggleHideBtn = document.getElementById('toggle-hide');
+        let allHidden = false;
+
+        toggleHideBtn.addEventListener('click', () => {
+            allHidden = !allHidden;
+
+            if (allHidden) {
+                document.querySelectorAll('.toggleMode').forEach(el => {
+                    if (el !== toggleHideBtn) el.classList.add('hideClass');
+                });
+                toggleHideBtn.textContent = 'Config Mode';
+                toggleHideBtn.classList.remove('btn-dark');
+                toggleHideBtn.classList.add('btn-success');
+            } else {
+                document.querySelectorAll('.hideClass').forEach(el => el.classList.remove('hideClass'));
+                toggleHideBtn.textContent = 'Display Mode';
+                toggleHideBtn.classList.remove('btn-success');
+                toggleHideBtn.classList.add('btn-dark');
+            }
         });
     </script>
 }

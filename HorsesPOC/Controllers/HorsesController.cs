@@ -73,6 +73,31 @@ namespace HorsesPOC.Controllers
 		{
 			if (ModelState.IsValid)
 			{
+				// Generate unique ID
+				horse.ID = Guid.NewGuid();
+				// Create the folder if it doesn't exist
+				var qrFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "qrhorses");
+				if (!Directory.Exists(qrFolder))
+					Directory.CreateDirectory(qrFolder);
+
+				string qrContent = $"horse:{horse.ID}";
+
+				// Generate QR code
+				using (var qrGenerator = new QRCoder.QRCodeGenerator())
+				{
+					var qrCodeData = qrGenerator.CreateQrCode(qrContent, QRCoder.QRCodeGenerator.ECCLevel.Q);
+					var qrCode = new QRCoder.QRCode(qrCodeData);
+					using (var qrBitmap = qrCode.GetGraphic(20))
+					{
+						var qrFileName = $"{horse.ID}.png";
+						var qrFilePath = Path.Combine(qrFolder, qrFileName);
+						qrBitmap.Save(qrFilePath, System.Drawing.Imaging.ImageFormat.Png);
+
+						// Store relative path for later display
+						horse.QRCode = $"/qrhorses/{qrFileName}";
+					}
+				}
+
 				_context.Horses.Add(horse);
 				await _context.SaveChangesAsync();
 				return RedirectToAction(nameof(Index));
@@ -112,6 +137,11 @@ namespace HorsesPOC.Controllers
 
 			if (ModelState.IsValid)
 			{
+				var existhorse = await _context.Horses.AsNoTracking().FirstOrDefaultAsync(u => u.ID == horse.ID);
+				if (existhorse == null)
+					return NotFound();
+
+				horse.QRCode = existhorse.QRCode;
 				_context.Update(horse);
 				await _context.SaveChangesAsync();
 				return RedirectToAction(nameof(Index));
