@@ -45,6 +45,38 @@
     .progress-tiny {
         height: .4rem;
     }
+
+    /* Highlight effect when rotating */
+    #display-name, #display-countdown {
+        transition: color 0.4s ease, transform 0.3s ease;
+    }
+
+    .display-highlight {
+        color: #ff5722 !important;
+        transform: scale(1.05);
+    }
+
+    /* #display-progress {
+        height: 0.6rem;
+        width: 60%;
+        margin: 0.5rem auto;
+    }
+ */
+    #display-progress {
+        height: 1rem;
+        width: 60%;
+        margin: 0.8rem auto;
+        background-color: #e9ecef; /* ensure visible track */
+        border-radius: 0.5rem;
+        overflow: hidden;
+        display: none; /* hidden until needed */
+    }
+
+    #display-progress-bar {
+        height: 100%;
+        transition: width 0.5s ease, background-color 0.5s ease;
+    }
+
 </style>
 
 <div class="container-fluid py-4">
@@ -73,9 +105,12 @@
                     </div>
                 </div>
                 <div class="card-body text-center p-4">
-                    <h3 id="display-name" class="mb-3 text-dark">No Active Timer</h3>
+                    <h3 id="display-name" class="mb-1 text-dark">No Active Timer</h3>
+                    <h5 id="display-horse" class="text-muted mb-3">---</h5>
                     <div class="countdown-display fw-bold text-primary" id="display-countdown" aria-live="polite">--:--</div>
-
+                    <div class="progress mx-auto" id="display-progress" style="display:none;">
+                        <div class="progress-bar bg-primary" role="progressbar" style="width: 0%;" id="display-progress-bar"></div>
+                    </div>
                     <div class="mt-4 d-flex justify-content-center gap-2 flex-wrap">
                         <button id="pause-all" class="btn btn-warning">Pause All</button>
                         <button id="resume-all" class="btn btn-success">Resume All</button>
@@ -148,7 +183,11 @@
                     <strong>Controls</strong>
                 </div>
                 <div class="card-body">
-                    
+                    <div class="mb-3">
+                        <label class="form-label">Remove Done Timers After (min)</label>
+                        <input id="remove-done-min" class="form-control" type="number" value="5" min="1" />
+                    </div>
+
                     <div class="mb-3">
                         <label class="form-label">Voice</label>
                         <select id="voice-select" class="form-select" aria-label="Select voice"></select>
@@ -174,6 +213,8 @@
     <div class="card shadow-soft mt-4 toggleMode">
         <div class="card-header bg-secondary text-white d-flex justify-content-between align-items-center">
             <strong>Prayer Times</strong>
+            
+
             <div class="d-flex align-items-center gap-2">
                 <select id="city-select" class="form-select form-select-sm d-inline-block w-auto">
                     <option value="Riyadh">Riyadh</option>
@@ -185,16 +226,25 @@
             </div>
         </div>
         <div class="d-flex align-items-center gap-3">
+            
             <div class="form-check form-switch">
                 <input class="form-check-input" type="checkbox" id="apply-prayers">
                 <label class="form-check-label" for="apply-prayers">Apply Prayer Times</label>
             </div>
+            <div class="form-check form-switch ms-2">
+                <input class="form-check-input" type="checkbox" id="play-azan">
+                <label class="form-check-label" for="play-azan">Play Adhan (Azan)</label>
+            </div>
+            <button id="stop-azan" class="btn btn-sm btn-outline-danger mt-2" disabled>Stop Adhan</button>
             <div class="input-group input-group-sm" style="width: 200px;">
                 <span class="input-group-text">Pause Duration</span>
                 <input type="number" id="prayer-pause-min" class="form-control" value="10" min="1">
                 <span class="input-group-text">min</span>
             </div>
         </div>
+        
+
+        @* <button id="test-azan" class="btn btn-sm btn-outline-secondary mt-2">Test Adhan</button> *@
         <div class="card-body">
             <div id="prayer-times" class="row text-center g-3">
                 @foreach (var prayer in new[] { "Fajr", "Dhuhr", "Asr", "Maghrib", "Isha" })
@@ -207,11 +257,14 @@
             </div>
         </div>
     </div>
+    <audio id="azan-audio" preload="auto" src="/sounds/azan.mp3"></audio>
 </div>
 
 @section Scripts {
     <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
     <script>
+        document.getElementById('stop-azan').addEventListener('click', stopAzanAudio);
+
         // =====================
         // Voice + Beep Controls
         // =====================
@@ -385,6 +438,17 @@
                     t.active = false;
                     t.done = true;
                     speak(`${t.trainee}'s timer finished`);
+                            // Schedule automatic removal of done timers
+        const removeAfterMin = parseInt(document.getElementById('remove-done-min').value || '5', 10);
+        if (removeAfterMin > 0) {
+            setTimeout(() => {
+                // Only remove if still done
+                if (timers[id] && timers[id].done) {
+                    clearTimer(id);
+                    console.log(`🗑️ Removed done timer for ${t.trainee} after ${removeAfterMin} min`);
+                }
+            }, removeAfterMin * 60 * 1000);
+        }
                             if (t.sessionId) {
             const actualMin = Math.ceil(t.total / 60); // convert seconds to minutes
             updateTrainingRecord(t.sessionId, actualMin);
@@ -452,16 +516,20 @@
         // =====================
         // Rotation (Dynamic)
         // =====================
-        function startRotation() {
+                function startRotation() {
             if (rotationTimerId) return; // already rotating
+
             const rotate = () => {
                 const list = Object.entries(timers).filter(([_, t]) => !t.done);
                 if (!list.length) {
                     displayName.textContent = 'No Active Timer';
                     displayCountdown.textContent = '--:--';
+                    document.getElementById('display-horse').textContent = '---';
+                    document.getElementById('display-progress').style.display = 'none';
                     currentDisplayId = null;
                     return scheduleNext();
                 }
+
                 // Move to next active id
                 const ids = list.map(([id]) => id);
                 if (!currentDisplayId || !ids.includes(currentDisplayId)) {
@@ -470,18 +538,49 @@
                     const idx = ids.indexOf(currentDisplayId);
                     currentDisplayId = ids[(idx + 1) % ids.length];
                 }
+
                 const t = timers[currentDisplayId];
+                const progressPercent = Math.round((1 - t.remaining / t.total) * 100);
+
+                // Update big screen display
                 displayName.textContent = t.trainee;
+                document.getElementById('display-horse').textContent = t.horse;
                 displayCountdown.textContent = formatTime(t.remaining);
+
+                const displayProgress = document.getElementById('display-progress');
+                const displayProgressBar = document.getElementById('display-progress-bar');
+                displayProgress.style.display = 'block';
+                displayProgressBar.style.width = `${progressPercent}%`;
+
+                // Flash color effect
+                displayName.classList.add('display-highlight');
+                displayCountdown.classList.add('display-highlight');
+                setTimeout(() => {
+                    displayName.classList.remove('display-highlight');
+                    displayCountdown.classList.remove('display-highlight');
+                }, 400);
+
+        if (t) {
+            const progressPercent = Math.round((1 - t.remaining / t.total) * 100);
+            displayProgress.style.display = 'block'; // ✅ ensure visible
+            displayProgressBar.style.width = `${progressPercent}%`;
+            displayProgressBar.className = 'progress-bar bg-primary';
+        } else {
+            displayProgress.style.display = 'none';
+        }
+
                 highlightRow(currentDisplayId);
                 scheduleNext();
             };
+
             const scheduleNext = () => {
                 const ms = Math.max(1, parseInt(rotateSecondsInput.value || '5', 10)) * 1000;
                 rotationTimerId = setTimeout(() => { rotationTimerId = null; rotate(); }, ms);
             };
+
             rotate();
         }
+
 
         function highlightRow(id) {
             document.querySelectorAll('#trainee-list .list-group-item').forEach(el => el.classList.remove('active-row'));
@@ -740,6 +839,56 @@
         // =====================
         // Prayer Times
         // =====================
+
+                function playAzanAudio() {
+            const audio = document.getElementById('azan-audio');
+            const stopBtn = document.getElementById('stop-azan');
+            if (!audio) return;
+
+            try {
+                audio.currentTime = 0;
+                audio.play().then(() => {
+                    stopBtn.disabled = false; // enable Stop button
+                }).catch(err => {
+                    console.warn("Audio autoplay blocked, using voice fallback:", err);
+                    speakAzanText("prayer");
+                });
+            } catch (err) {
+                console.warn("Unable to play Adhan:", err);
+                speakAzanText("prayer");
+            }
+
+            // optional: auto-stop after 2 minutes
+            clearTimeout(window._azanAutoStop);
+            window._azanAutoStop = setTimeout(stopAzanAudio, 2 * 60 * 1000);
+        }
+
+        function stopAzanAudio() {
+            const audio = document.getElementById('azan-audio');
+            const stopBtn = document.getElementById('stop-azan');
+            if (audio && !audio.paused) {
+                audio.pause();
+                audio.currentTime = 0;
+            }
+            stopBtn.disabled = true;
+            clearTimeout(window._azanAutoStop);
+        }
+
+
+        // function speakAzanText(prayerName) {
+        //     if (!soundToggle.checked) return;
+        //     speak(`It is time for ${prayerName} prayer. Please prepare for Salah.`);
+        // }
+
+        function triggerAzan(prayerName) {
+            const playAzan = document.getElementById('play-azan').checked;
+            if (!playAzan) return;
+
+            playAzanAudio();
+        }
+
+
+
                 async function loadPrayerTimes() {
             const city = document.getElementById('city-select').value;
             const country = "Saudi Arabia";
@@ -824,6 +973,9 @@
                     pauseAllBtn.click();
                     speak(`Prayer time started for ${activePrayer}. All timers paused.`);
                     console.log(`⏸️ Prayer time active: ${activePrayer}`);
+
+                        // 🔔 NEW: Trigger Adhan
+                    triggerAzan(activePrayer);
                 }
                 else if (!activePrayer && prayerActive) {
                     // Resume timers
