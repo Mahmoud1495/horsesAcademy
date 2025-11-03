@@ -1,57 +1,69 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "D:\\Projects\\HorsesAcadmy\\HorsesPOC\\",
+  "WorkspaceRootPath": "E:\\Project\\horsesAcademy\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{0653CCA1-3EDC-4451-9FDA-4AE034498749}|HorsesPOC\\HorsesPOC.csproj|d:\\projects\\horsesacadmy\\horsespoc\\horsespoc\\views\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{0653CCA1-3EDC-4451-9FDA-4AE034498749}|HorsesPOC\\HorsesPOC.csproj|solutionrelative:horsespoc\\views\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{0653CCA1-3EDC-4451-9FDA-4AE034498749}|HorsesPOC\\HorsesPOC.csproj|e:\\project\\horsesacademy\\horsespoc\\controllers\\trainingtrackercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0653CCA1-3EDC-4451-9FDA-4AE034498749}|HorsesPOC\\HorsesPOC.csproj|solutionrelative:horsespoc\\controllers\\trainingtrackercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{0653CCA1-3EDC-4451-9FDA-4AE034498749}|HorsesPOC\\HorsesPOC.csproj|d:\\projects\\horsesacadmy\\horsespoc\\horsespoc\\controllers\\traineescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{0653CCA1-3EDC-4451-9FDA-4AE034498749}|HorsesPOC\\HorsesPOC.csproj|e:\\project\\horsesacademy\\horsespoc\\controllers\\traineescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{0653CCA1-3EDC-4451-9FDA-4AE034498749}|HorsesPOC\\HorsesPOC.csproj|solutionrelative:horsespoc\\controllers\\traineescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{0653CCA1-3EDC-4451-9FDA-4AE034498749}|HorsesPOC\\HorsesPOC.csproj|d:\\projects\\horsesacadmy\\horsespoc\\horsespoc\\models\\domain\\horse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{0653CCA1-3EDC-4451-9FDA-4AE034498749}|HorsesPOC\\HorsesPOC.csproj|solutionrelative:horsespoc\\models\\domain\\horse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{0653CCA1-3EDC-4451-9FDA-4AE034498749}|HorsesPOC\\HorsesPOC.csproj|d:\\projects\\horsesacadmy\\horsespoc\\horsespoc\\controllers\\homecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{0653CCA1-3EDC-4451-9FDA-4AE034498749}|HorsesPOC\\HorsesPOC.csproj|solutionrelative:horsespoc\\controllers\\homecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{0653CCA1-3EDC-4451-9FDA-4AE034498749}|HorsesPOC\\HorsesPOC.csproj|d:\\projects\\horsesacadmy\\horsespoc\\horsespoc\\controllers\\stablescontrollers.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{0653CCA1-3EDC-4451-9FDA-4AE034498749}|HorsesPOC\\HorsesPOC.csproj|solutionrelative:horsespoc\\controllers\\stablescontrollers.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{0653CCA1-3EDC-4451-9FDA-4AE034498749}|HorsesPOC\\HorsesPOC.csproj|d:\\projects\\horsesacadmy\\horsespoc\\horsespoc\\models\\domain\\trainee.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{0653CCA1-3EDC-4451-9FDA-4AE034498749}|HorsesPOC\\HorsesPOC.csproj|e:\\project\\horsesacademy\\horsespoc\\models\\domain\\trainee.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{0653CCA1-3EDC-4451-9FDA-4AE034498749}|HorsesPOC\\HorsesPOC.csproj|solutionrelative:horsespoc\\models\\domain\\trainee.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{0653CCA1-3EDC-4451-9FDA-4AE034498749}|HorsesPOC\\HorsesPOC.csproj|d:\\projects\\horsesacadmy\\horsespoc\\horsespoc\\services\\auth\\authraizationfilter.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{0653CCA1-3EDC-4451-9FDA-4AE034498749}|HorsesPOC\\HorsesPOC.csproj|e:\\project\\horsesacademy\\horsespoc\\models\\domain\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0653CCA1-3EDC-4451-9FDA-4AE034498749}|HorsesPOC\\HorsesPOC.csproj|solutionrelative:horsespoc\\models\\domain\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0653CCA1-3EDC-4451-9FDA-4AE034498749}|HorsesPOC\\HorsesPOC.csproj|e:\\project\\horsesacademy\\horsespoc\\models\\domain\\trainingtracker.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0653CCA1-3EDC-4451-9FDA-4AE034498749}|HorsesPOC\\HorsesPOC.csproj|solutionrelative:horsespoc\\models\\domain\\trainingtracker.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0653CCA1-3EDC-4451-9FDA-4AE034498749}|HorsesPOC\\HorsesPOC.csproj|e:\\project\\horsesacademy\\horsespoc\\views\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{0653CCA1-3EDC-4451-9FDA-4AE034498749}|HorsesPOC\\HorsesPOC.csproj|solutionrelative:horsespoc\\views\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0653CCA1-3EDC-4451-9FDA-4AE034498749}|HorsesPOC\\HorsesPOC.csproj|e:\\project\\horsesacademy\\horsespoc\\models\\domain\\horse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0653CCA1-3EDC-4451-9FDA-4AE034498749}|HorsesPOC\\HorsesPOC.csproj|solutionrelative:horsespoc\\models\\domain\\horse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0653CCA1-3EDC-4451-9FDA-4AE034498749}|HorsesPOC\\HorsesPOC.csproj|e:\\project\\horsesacademy\\horsespoc\\controllers\\homecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0653CCA1-3EDC-4451-9FDA-4AE034498749}|HorsesPOC\\HorsesPOC.csproj|solutionrelative:horsespoc\\controllers\\homecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0653CCA1-3EDC-4451-9FDA-4AE034498749}|HorsesPOC\\HorsesPOC.csproj|e:\\project\\horsesacademy\\horsespoc\\controllers\\stablescontrollers.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0653CCA1-3EDC-4451-9FDA-4AE034498749}|HorsesPOC\\HorsesPOC.csproj|solutionrelative:horsespoc\\controllers\\stablescontrollers.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0653CCA1-3EDC-4451-9FDA-4AE034498749}|HorsesPOC\\HorsesPOC.csproj|e:\\project\\horsesacademy\\horsespoc\\services\\auth\\authraizationfilter.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{0653CCA1-3EDC-4451-9FDA-4AE034498749}|HorsesPOC\\HorsesPOC.csproj|solutionrelative:horsespoc\\services\\auth\\authraizationfilter.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{0653CCA1-3EDC-4451-9FDA-4AE034498749}|HorsesPOC\\HorsesPOC.csproj|d:\\projects\\horsesacadmy\\horsespoc\\horsespoc\\controllers\\horsescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{0653CCA1-3EDC-4451-9FDA-4AE034498749}|HorsesPOC\\HorsesPOC.csproj|e:\\project\\horsesacademy\\horsespoc\\controllers\\horsescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{0653CCA1-3EDC-4451-9FDA-4AE034498749}|HorsesPOC\\HorsesPOC.csproj|solutionrelative:horsespoc\\controllers\\horsescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{0653CCA1-3EDC-4451-9FDA-4AE034498749}|HorsesPOC\\HorsesPOC.csproj|d:\\projects\\horsesacadmy\\horsespoc\\horsespoc\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "AbsoluteMoniker": "D:0:0:{0653CCA1-3EDC-4451-9FDA-4AE034498749}|HorsesPOC\\HorsesPOC.csproj|e:\\project\\horsesacademy\\horsespoc\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{0653CCA1-3EDC-4451-9FDA-4AE034498749}|HorsesPOC\\HorsesPOC.csproj|solutionrelative:horsespoc\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{0653CCA1-3EDC-4451-9FDA-4AE034498749}|HorsesPOC\\HorsesPOC.csproj|d:\\projects\\horsesacadmy\\horsespoc\\horsespoc\\views\\account\\accessdenied.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "AbsoluteMoniker": "D:0:0:{0653CCA1-3EDC-4451-9FDA-4AE034498749}|HorsesPOC\\HorsesPOC.csproj|e:\\project\\horsesacademy\\horsespoc\\views\\account\\accessdenied.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{0653CCA1-3EDC-4451-9FDA-4AE034498749}|HorsesPOC\\HorsesPOC.csproj|solutionrelative:horsespoc\\views\\account\\accessdenied.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{0653CCA1-3EDC-4451-9FDA-4AE034498749}|HorsesPOC\\HorsesPOC.csproj|d:\\projects\\horsesacadmy\\horsespoc\\horsespoc\\controllers\\accountcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{0653CCA1-3EDC-4451-9FDA-4AE034498749}|HorsesPOC\\HorsesPOC.csproj|e:\\project\\horsesacademy\\horsespoc\\controllers\\accountcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{0653CCA1-3EDC-4451-9FDA-4AE034498749}|HorsesPOC\\HorsesPOC.csproj|solutionrelative:horsespoc\\controllers\\accountcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{0653CCA1-3EDC-4451-9FDA-4AE034498749}|HorsesPOC\\HorsesPOC.csproj|d:\\projects\\horsesacadmy\\horsespoc\\horsespoc\\controllers\\userscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{0653CCA1-3EDC-4451-9FDA-4AE034498749}|HorsesPOC\\HorsesPOC.csproj|e:\\project\\horsesacademy\\horsespoc\\controllers\\userscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{0653CCA1-3EDC-4451-9FDA-4AE034498749}|HorsesPOC\\HorsesPOC.csproj|solutionrelative:horsespoc\\controllers\\userscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{0653CCA1-3EDC-4451-9FDA-4AE034498749}|HorsesPOC\\HorsesPOC.csproj|d:\\projects\\horsesacadmy\\horsespoc\\horsespoc\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{0653CCA1-3EDC-4451-9FDA-4AE034498749}|HorsesPOC\\HorsesPOC.csproj|e:\\project\\horsesacademy\\horsespoc\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{0653CCA1-3EDC-4451-9FDA-4AE034498749}|HorsesPOC\\HorsesPOC.csproj|solutionrelative:horsespoc\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
@@ -62,23 +74,11 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 15,
+          "SelectedChildIndex": 4,
           "Children": [
             {
               "$type": "Bookmark",
-              "Name": "ST:130:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
-            },
-            {
-              "$type": "Bookmark",
-              "Name": "ST:131:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
-            },
-            {
-              "$type": "Bookmark",
-              "Name": "ST:10:0:{57d563b6-44a5-47df-85be-f4199ad6b651}"
-            },
-            {
-              "$type": "Bookmark",
-              "Name": "ST:129:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+              "Name": "ST:0:0:{3ae79031-e1bc-11d0-8f78-00a0c9110057}"
             },
             {
               "$type": "Bookmark",
@@ -86,116 +86,134 @@
             },
             {
               "$type": "Bookmark",
-              "Name": "ST:134:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+              "Name": "ST:130:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
             },
             {
               "$type": "Bookmark",
-              "Name": "ST:135:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
-            },
-            {
-              "$type": "Bookmark",
-              "Name": "ST:129:0:{75188d03-9892-4ae2-abf1-207126247ce5}"
+              "Name": "ST:0:0:{cf577b8c-4134-11d2-83e5-00c04f9902c1}"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "Horse.cs",
-              "DocumentMoniker": "D:\\Projects\\HorsesAcadmy\\HorsesPOC\\HorsesPOC\\Models\\Domain\\Horse.cs",
-              "RelativeDocumentMoniker": "HorsesPOC\\Models\\Domain\\Horse.cs",
-              "ToolTip": "D:\\Projects\\HorsesAcadmy\\HorsesPOC\\HorsesPOC\\Models\\Domain\\Horse.cs",
-              "RelativeToolTip": "HorsesPOC\\Models\\Domain\\Horse.cs",
-              "ViewState": "AgIAAAYAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "DocumentIndex": 0,
+              "Title": "TrainingTrackerController.cs",
+              "DocumentMoniker": "E:\\Project\\horsesAcademy\\HorsesPOC\\Controllers\\TrainingTrackerController.cs",
+              "RelativeDocumentMoniker": "HorsesPOC\\Controllers\\TrainingTrackerController.cs",
+              "ToolTip": "E:\\Project\\horsesAcademy\\HorsesPOC\\Controllers\\TrainingTrackerController.cs",
+              "RelativeToolTip": "HorsesPOC\\Controllers\\TrainingTrackerController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-22T15:14:19.108Z",
+              "WhenOpened": "2025-11-03T21:39:55.813Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 3,
+              "Title": "user.cs",
+              "DocumentMoniker": "E:\\Project\\horsesAcademy\\HorsesPOC\\Models\\Domain\\user.cs",
+              "RelativeDocumentMoniker": "HorsesPOC\\Models\\Domain\\user.cs",
+              "ToolTip": "E:\\Project\\horsesAcademy\\HorsesPOC\\Models\\Domain\\user.cs",
+              "RelativeToolTip": "HorsesPOC\\Models\\Domain\\user.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-03T21:39:24.514Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "TrainingTracker.cs",
+              "DocumentMoniker": "E:\\Project\\horsesAcademy\\HorsesPOC\\Models\\Domain\\TrainingTracker.cs",
+              "RelativeDocumentMoniker": "HorsesPOC\\Models\\Domain\\TrainingTracker.cs",
+              "ToolTip": "E:\\Project\\horsesAcademy\\HorsesPOC\\Models\\Domain\\TrainingTracker.cs",
+              "RelativeToolTip": "HorsesPOC\\Models\\Domain\\TrainingTracker.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-03T21:39:22.096Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
               "Title": "Trainee.cs",
-              "DocumentMoniker": "D:\\Projects\\HorsesAcadmy\\HorsesPOC\\HorsesPOC\\Models\\Domain\\Trainee.cs",
+              "DocumentMoniker": "E:\\Project\\horsesAcademy\\HorsesPOC\\Models\\Domain\\Trainee.cs",
               "RelativeDocumentMoniker": "HorsesPOC\\Models\\Domain\\Trainee.cs",
-              "ToolTip": "D:\\Projects\\HorsesAcadmy\\HorsesPOC\\HorsesPOC\\Models\\Domain\\Trainee.cs",
+              "ToolTip": "E:\\Project\\horsesAcademy\\HorsesPOC\\Models\\Domain\\Trainee.cs",
               "RelativeToolTip": "HorsesPOC\\Models\\Domain\\Trainee.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAUAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABQAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-10-22T15:13:47.022Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 12,
               "Title": "AccessDenied.cshtml",
-              "DocumentMoniker": "D:\\Projects\\HorsesAcadmy\\HorsesPOC\\HorsesPOC\\Views\\Account\\AccessDenied.cshtml",
+              "DocumentMoniker": "E:\\Project\\horsesAcademy\\HorsesPOC\\Views\\Account\\AccessDenied.cshtml",
               "RelativeDocumentMoniker": "HorsesPOC\\Views\\Account\\AccessDenied.cshtml",
-              "ToolTip": "D:\\Projects\\HorsesAcadmy\\HorsesPOC\\HorsesPOC\\Views\\Account\\AccessDenied.cshtml",
+              "ToolTip": "E:\\Project\\horsesAcademy\\HorsesPOC\\Views\\Account\\AccessDenied.cshtml",
               "RelativeToolTip": "HorsesPOC\\Views\\Account\\AccessDenied.cshtml",
               "ViewState": "AgIAAAkAAAAAAAAAAAAAABcAAABAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-10-22T14:43:20.03Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-10-22T14:43:20.03Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 8,
               "Title": "StablesControllers.cs",
-              "DocumentMoniker": "D:\\Projects\\HorsesAcadmy\\HorsesPOC\\HorsesPOC\\Controllers\\StablesControllers.cs",
+              "DocumentMoniker": "E:\\Project\\horsesAcademy\\HorsesPOC\\Controllers\\StablesControllers.cs",
               "RelativeDocumentMoniker": "HorsesPOC\\Controllers\\StablesControllers.cs",
-              "ToolTip": "D:\\Projects\\HorsesAcadmy\\HorsesPOC\\HorsesPOC\\Controllers\\StablesControllers.cs",
+              "ToolTip": "E:\\Project\\horsesAcademy\\HorsesPOC\\Controllers\\StablesControllers.cs",
               "RelativeToolTip": "HorsesPOC\\Controllers\\StablesControllers.cs",
               "ViewState": "AgIAAB4AAAAAAAAAAAAAACsAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-21T23:56:19.317Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-10-21T23:56:19.317Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 7,
               "Title": "HomeController.cs",
-              "DocumentMoniker": "D:\\Projects\\HorsesAcadmy\\HorsesPOC\\HorsesPOC\\Controllers\\HomeController.cs",
+              "DocumentMoniker": "E:\\Project\\horsesAcademy\\HorsesPOC\\Controllers\\HomeController.cs",
               "RelativeDocumentMoniker": "HorsesPOC\\Controllers\\HomeController.cs",
-              "ToolTip": "D:\\Projects\\HorsesAcadmy\\HorsesPOC\\HorsesPOC\\Controllers\\HomeController.cs",
+              "ToolTip": "E:\\Project\\horsesAcademy\\HorsesPOC\\Controllers\\HomeController.cs",
               "RelativeToolTip": "HorsesPOC\\Controllers\\HomeController.cs",
               "ViewState": "AgIAAB8AAAAAAAAAAAAgwC0AAAArAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-21T23:56:09.875Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-10-21T23:56:09.875Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
               "Title": "TraineesController.cs",
-              "DocumentMoniker": "D:\\Projects\\HorsesAcadmy\\HorsesPOC\\HorsesPOC\\Controllers\\TraineesController.cs",
+              "DocumentMoniker": "E:\\Project\\horsesAcademy\\HorsesPOC\\Controllers\\TraineesController.cs",
               "RelativeDocumentMoniker": "HorsesPOC\\Controllers\\TraineesController.cs",
-              "ToolTip": "D:\\Projects\\HorsesAcadmy\\HorsesPOC\\HorsesPOC\\Controllers\\TraineesController.cs",
+              "ToolTip": "E:\\Project\\horsesAcademy\\HorsesPOC\\Controllers\\TraineesController.cs",
               "RelativeToolTip": "HorsesPOC\\Controllers\\TraineesController.cs",
-              "ViewState": "AgIAAEMAAAAAAAAAAAAgwEwAAAAkAAAAAAAAAA==",
+              "ViewState": "AgIAAEkAAAAAAAAAAAAgwEwAAAAEAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-10-21T23:40:00.294Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 10,
               "Title": "HorsesController.cs",
-              "DocumentMoniker": "D:\\Projects\\HorsesAcadmy\\HorsesPOC\\HorsesPOC\\Controllers\\HorsesController.cs",
+              "DocumentMoniker": "E:\\Project\\horsesAcademy\\HorsesPOC\\Controllers\\HorsesController.cs",
               "RelativeDocumentMoniker": "HorsesPOC\\Controllers\\HorsesController.cs",
-              "ToolTip": "D:\\Projects\\HorsesAcadmy\\HorsesPOC\\HorsesPOC\\Controllers\\HorsesController.cs",
+              "ToolTip": "E:\\Project\\horsesAcademy\\HorsesPOC\\Controllers\\HorsesController.cs",
               "RelativeToolTip": "HorsesPOC\\Controllers\\HorsesController.cs",
               "ViewState": "AgIAABkAAAAAAAAAAAAgwCcAAAA3AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-21T23:28:56.354Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-10-21T23:28:56.354Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 5,
               "Title": "Index.cshtml",
-              "DocumentMoniker": "D:\\Projects\\HorsesAcadmy\\HorsesPOC\\HorsesPOC\\Views\\Home\\Index.cshtml",
+              "DocumentMoniker": "E:\\Project\\horsesAcademy\\HorsesPOC\\Views\\Home\\Index.cshtml",
               "RelativeDocumentMoniker": "HorsesPOC\\Views\\Home\\Index.cshtml",
-              "ToolTip": "D:\\Projects\\HorsesAcadmy\\HorsesPOC\\HorsesPOC\\Views\\Home\\Index.cshtml",
+              "ToolTip": "E:\\Project\\horsesAcademy\\HorsesPOC\\Views\\Home\\Index.cshtml",
               "RelativeToolTip": "HorsesPOC\\Views\\Home\\Index.cshtml",
-              "ViewState": "AgIAAGkBAAAAAAAAAAAcwHYBAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAGkBAAAAAAAAAAAcwIQBAAA5AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
               "WhenOpened": "2025-10-22T08:28:58.917Z",
               "EditorCaption": ""
@@ -203,67 +221,88 @@
             {
               "$type": "Document",
               "DocumentIndex": 6,
+              "Title": "Horse.cs",
+              "DocumentMoniker": "E:\\Project\\horsesAcademy\\HorsesPOC\\Models\\Domain\\Horse.cs",
+              "RelativeDocumentMoniker": "HorsesPOC\\Models\\Domain\\Horse.cs",
+              "ToolTip": "E:\\Project\\horsesAcademy\\HorsesPOC\\Models\\Domain\\Horse.cs",
+              "RelativeToolTip": "HorsesPOC\\Models\\Domain\\Horse.cs",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-22T15:14:19.108Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
               "Title": "AuthraizationFilter.cs",
-              "DocumentMoniker": "D:\\Projects\\HorsesAcadmy\\HorsesPOC\\HorsesPOC\\Services\\Auth\\AuthraizationFilter.cs",
+              "DocumentMoniker": "E:\\Project\\horsesAcademy\\HorsesPOC\\Services\\Auth\\AuthraizationFilter.cs",
               "RelativeDocumentMoniker": "HorsesPOC\\Services\\Auth\\AuthraizationFilter.cs",
-              "ToolTip": "D:\\Projects\\HorsesAcadmy\\HorsesPOC\\HorsesPOC\\Services\\Auth\\AuthraizationFilter.cs",
+              "ToolTip": "E:\\Project\\horsesAcademy\\HorsesPOC\\Services\\Auth\\AuthraizationFilter.cs",
               "RelativeToolTip": "HorsesPOC\\Services\\Auth\\AuthraizationFilter.cs",
               "ViewState": "AgIAABwAAAAAAAAAAAAcwBoAAAAIAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-21T23:30:44.343Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-10-21T23:30:44.343Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 13,
               "Title": "AccountController.cs",
-              "DocumentMoniker": "D:\\Projects\\HorsesAcadmy\\HorsesPOC\\HorsesPOC\\Controllers\\AccountController.cs",
+              "DocumentMoniker": "E:\\Project\\horsesAcademy\\HorsesPOC\\Controllers\\AccountController.cs",
               "RelativeDocumentMoniker": "HorsesPOC\\Controllers\\AccountController.cs",
-              "ToolTip": "D:\\Projects\\HorsesAcadmy\\HorsesPOC\\HorsesPOC\\Controllers\\AccountController.cs",
+              "ToolTip": "E:\\Project\\horsesAcademy\\HorsesPOC\\Controllers\\AccountController.cs",
               "RelativeToolTip": "HorsesPOC\\Controllers\\AccountController.cs",
               "ViewState": "AgIAABUAAAAAAAAAAAAAADkAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-21T23:56:03.572Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 8,
-              "Title": "_Layout.cshtml",
-              "DocumentMoniker": "D:\\Projects\\HorsesAcadmy\\HorsesPOC\\HorsesPOC\\Views\\Shared\\_Layout.cshtml",
-              "RelativeDocumentMoniker": "HorsesPOC\\Views\\Shared\\_Layout.cshtml",
-              "ToolTip": "D:\\Projects\\HorsesAcadmy\\HorsesPOC\\HorsesPOC\\Views\\Shared\\_Layout.cshtml",
-              "RelativeToolTip": "HorsesPOC\\Views\\Shared\\_Layout.cshtml",
-              "ViewState": "AgIAACQAAAAAAAAAAAAAADYAAAA0AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-10-21T23:29:44.136Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 12,
-              "Title": "Program.cs",
-              "DocumentMoniker": "D:\\Projects\\HorsesAcadmy\\HorsesPOC\\HorsesPOC\\Program.cs",
-              "RelativeDocumentMoniker": "HorsesPOC\\Program.cs",
-              "ToolTip": "D:\\Projects\\HorsesAcadmy\\HorsesPOC\\HorsesPOC\\Program.cs",
-              "RelativeToolTip": "HorsesPOC\\Program.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAqAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-21T23:46:08.856Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-10-21T23:56:03.572Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 11,
+              "Title": "_Layout.cshtml",
+              "DocumentMoniker": "E:\\Project\\horsesAcademy\\HorsesPOC\\Views\\Shared\\_Layout.cshtml",
+              "RelativeDocumentMoniker": "HorsesPOC\\Views\\Shared\\_Layout.cshtml",
+              "ToolTip": "E:\\Project\\horsesAcademy\\HorsesPOC\\Views\\Shared\\_Layout.cshtml",
+              "RelativeToolTip": "HorsesPOC\\Views\\Shared\\_Layout.cshtml",
+              "ViewState": "AgIAACQAAAAAAAAAAAAAADYAAAA0AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-10-21T23:29:44.136Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "Program.cs",
+              "DocumentMoniker": "E:\\Project\\horsesAcademy\\HorsesPOC\\Program.cs",
+              "RelativeDocumentMoniker": "HorsesPOC\\Program.cs",
+              "ToolTip": "E:\\Project\\horsesAcademy\\HorsesPOC\\Program.cs",
+              "RelativeToolTip": "HorsesPOC\\Program.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAqAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-21T23:46:08.856Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
               "Title": "UsersController.cs",
-              "DocumentMoniker": "D:\\Projects\\HorsesAcadmy\\HorsesPOC\\HorsesPOC\\Controllers\\UsersController.cs",
+              "DocumentMoniker": "E:\\Project\\horsesAcademy\\HorsesPOC\\Controllers\\UsersController.cs",
               "RelativeDocumentMoniker": "HorsesPOC\\Controllers\\UsersController.cs",
-              "ToolTip": "D:\\Projects\\HorsesAcadmy\\HorsesPOC\\HorsesPOC\\Controllers\\UsersController.cs",
+              "ToolTip": "E:\\Project\\horsesAcademy\\HorsesPOC\\Controllers\\UsersController.cs",
               "RelativeToolTip": "HorsesPOC\\Controllers\\UsersController.cs",
               "ViewState": "AgIAABwAAAAAAAAAAAAgwBoAAAADAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-21T23:57:14.463Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-10-21T23:57:14.463Z"
+            }
+          ]
+        },
+        {
+          "DockedWidth": 1473,
+          "SelectedChildIndex": -1,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{d78612c7-9962-4b83-95d9-268046dad23a}"
             }
           ]
         }
