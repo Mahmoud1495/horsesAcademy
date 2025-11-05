@@ -1,5 +1,6 @@
 using HorsesPOC.Data;
 using HorsesPOC.Services.Auth;
+using HorsesPOC.Services.OtpService;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 
@@ -10,6 +11,10 @@ builder.Services.AddControllersWithViews();
 
 builder.Services.AddScoped<AuthraizationFilter>();
 builder.Services.AddHttpContextAccessor();
+
+builder.Services.Configure<TwilioOptions>(builder.Configuration.GetSection("Twilio"));
+builder.Services.AddSingleton<IWhatsAppSender, TwilioWhatsAppSender>();
+builder.Services.AddScoped<IOtpService, OtpService>();
 
 builder.Services.AddDbContext<AppDbContext>(options =>
 	options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
@@ -36,7 +41,7 @@ if (!app.Environment.IsDevelopment())
 }
 app.UseStaticFiles(); 
 
-app.UseHttpsRedirection();
+//app.UseHttpsRedirection();
 
 app.UseRouting();
 

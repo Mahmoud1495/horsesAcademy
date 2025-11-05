@@ -349,33 +349,48 @@
         }
 
         function addTimerItem(id, trainee, horse, totalSeconds, traineeId, horseId, remaining = null, active = false, done = false) {
-            const startRemaining = remaining ?? totalSeconds;
-            const li = document.createElement('li');
-            li.className = 'list-group-item d-flex justify-content-between align-items-center';
-            li.dataset.traineeId = traineeId ?? '';
-            li.dataset.horseId = horseId ?? '';
-            li.id = `row-${id}`;
+                    const startRemaining = remaining ?? totalSeconds;
+        const li = document.createElement('li');
+        li.className = 'list-group-item d-flex justify-content-between align-items-center';
+        li.dataset.traineeId = traineeId ?? '';
+        li.dataset.horseId = horseId ?? '';
+        li.id = `row-${id}`;
 
-            li.innerHTML = `
-                <div class="me-3">
-                    <div><strong>${trainee}</strong> – ${horse}</div>
-                    <div class="d-flex align-items-center gap-2 mt-1">
-                        <span class="badge bg-primary" id="timer-${id}">${formatTime(startRemaining)}</span>
-                        <div class="flex-grow-1">
-                            <div class="progress progress-tiny">
-                                <div class="progress-bar" id="pbar-${id}" role="progressbar" style="width: ${timerProgress(startRemaining, totalSeconds)}%" aria-valuemin="0" aria-valuemax="100"></div>
-                            </div>
-                        </div>
-                    </div>
+        // Default status (you can change it later dynamically)
+        const statusClass = startRemaining === totalSeconds
+          ? 'bg-secondary'        // not started
+          : startRemaining > 0
+            ? 'bg-primary'        // in progress
+            : 'bg-success';       // done
+
+        li.innerHTML = `
+          <div class="me-3 w-100">
+            <div><strong>${trainee}</strong> – ${horse}</div>
+            <div class="d-flex align-items-center gap-2 mt-1">
+              <span class="badge ${statusClass}" id="timer-${id}">
+                ${formatTime(startRemaining)}
+              </span>
+              <div class="flex-grow-1">
+                <div class="progress progress-tiny">
+                  <div class="progress-bar"
+                       id="pbar-${id}"
+                       role="progressbar"
+                       style="width: ${timerProgress(startRemaining, totalSeconds)}%"
+                       aria-valuemin="0"
+                       aria-valuemax="100">
+                  </div>
                 </div>
-                <div class="d-flex gap-1">
-                    <button class="btn btn-success btn-sm" data-action="start" data-id="${id}">Start</button>
-                    <button class="btn btn-warning btn-sm" data-action="pause" data-id="${id}">Pause</button>
-                    <button class="btn btn-secondary btn-sm" data-action="reset" data-id="${id}">Reset</button>
-                    <button class="btn btn-danger btn-sm" data-action="clear" data-id="${id}">Clear</button>
-                </div>`;
+              </div>
+            </div>
+          </div>
+          <div class="d-flex gap-1">
+            <button class="btn btn-success btn-sm" data-action="start" data-id="${id}">Start</button>
+            <button class="btn btn-warning btn-sm" data-action="pause" data-id="${id}">Pause</button>
+            <button class="btn btn-danger btn-sm" data-action="clear" data-id="${id}">Clear</button>
+          </div>`;
 
-            traineeList.appendChild(li);
+        traineeList.appendChild(li);
+        updateTimerUI(id, 'pending');     // when new/cleared
 
             // Row-level button actions (event delegation)
             li.addEventListener('click', (e) => {
@@ -390,6 +405,31 @@
             });
         }
 
+                function updateTimerUI(id, state) {
+          const startBtn = document.querySelector(`button[data-action="start"][data-id="${id}"]`);
+          const timerEl = document.getElementById(`timer-${id}`);
+
+          timerEl.classList.remove('bg-secondary', 'bg-primary', 'bg-success');
+
+          switch (state) {
+            case 'pending':
+              timerEl.classList.add('bg-secondary');
+              startBtn.disabled = false;
+              break;
+
+            case 'in-progress':
+              timerEl.classList.add('bg-primary');
+              startBtn.disabled = true;
+              break;
+
+            case 'done':
+              timerEl.classList.add('bg-success');
+              startBtn.disabled = true;
+              break;
+          }
+        }
+
+
         // ================
         // Timer Operations
         // ================
@@ -402,6 +442,7 @@
         }
 
         function startTimer(id) {
+            updateTimerUI(id, 'in-progress'); // when starting
             const t = ensureTimerStructure(id);
             if (!t) return;
             if (t.done) { t.done = false; t.remaining = t.total; }
@@ -431,6 +472,7 @@
                 });
 
                 if (t.remaining <= 0) {
+                    updateTimerUI(id, 'done');        // when complete
                     clearInterval(t.interval);
                     badge.classList.remove('bg-primary');
                     badge.classList.add('bg-success');
@@ -466,6 +508,8 @@
 
         function pauseTimer(id) {
             const t = timers[id];
+            updateTimerUI(id, 'pending');
+
             if (!t) return;
             t.active = !t.active;
             saveTimers();
@@ -1022,5 +1066,47 @@
                 toggleHideBtn.classList.add('btn-dark');
             }
         });
+
+                function pauseAllTimersForPrayer(durationMinutes) {
+            const endTime = new Date().getTime() + durationMinutes * 60 * 1000;
+
+            // Save pause info
+            localStorage.setItem('prayerPauseUntil', endTime);
+
+            // Stop all active timers
+            stopAllTraineeTimers();
+
+            // Optionally, show a banner or overlay
+            showPrayerOverlay(durationMinutes);
+        }
+
+        // Called when the page loads or refreshes
+        function checkPrayerPauseOnLoad() {
+            const stored = localStorage.getItem('prayerPauseUntil');
+            if (!stored) return;
+
+            const now = new Date().getTime();
+            const remaining = stored - now;
+
+            if (remaining > 0) {
+                // Prayer time still active, keep timers paused
+                stopAllTraineeTimers();
+                showPrayerOverlay(Math.ceil(remaining / 60000));
+
+                // Resume after the remaining time
+                setTimeout(() => {
+                    localStorage.removeItem('prayerPauseUntil');
+                    hidePrayerOverlay();
+                    resumeAllTraineeTimers();
+                }, remaining);
+            } else {
+                // Prayer already ended
+                localStorage.removeItem('prayerPauseUntil');
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', checkPrayerPauseOnLoad);
     </script>
+
+
 }

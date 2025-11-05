@@ -15,6 +15,7 @@ namespace HorsesPOC.Data
 		public DbSet<Trainee> Trainees { get; set; }
 		public DbSet<Horse> Horses { get; set; }
 		public DbSet<TrainingTracker> TrainingTracker { get; set; }
+		public DbSet<OtpCode> OtpCodes { get; set; }
 
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
